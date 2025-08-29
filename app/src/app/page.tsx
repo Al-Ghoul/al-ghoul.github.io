@@ -1,103 +1,106 @@
-import Image from "next/image";
+"use client";
+import { useMemo, useRef } from 'react'
+import * as THREE from 'three'
+import { Canvas, extend, useFrame, useLoader } from "@react-three/fiber";
+import { Effects } from '@react-three/drei'
+import { FilmPass, WaterPass, UnrealBloomPass, LUTPass, LUTCubeLoader } from 'three-stdlib'
+extend({ WaterPass, UnrealBloomPass, FilmPass, LUTPass })
+
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <main className="h-screen">
+      <Canvas className="w-full h-full" dpr={1} camera={{ fov: 100, position: [0, 0, 30] }}>
+        <ambientLight intensity={0.01} />
+        <pointLight distance={60} intensity={4} decay={0} color="lightblue" />
+        <spotLight
+          intensity={1.5}
+          position={[0, 0, 2000]}
+          penumbra={1}
+          decay={0}
+          color="red"
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <mesh>
+          <planeGeometry args={[1000, 1000]} />
+          <meshStandardMaterial
+            color="#00ffff"
+            roughness={0.5}
+            depthTest={false}
+            toneMapped={false}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </mesh>
+        <Swarm count={10000} />
+        <Postpro />
+      </Canvas>
+    </main>
   );
 }
+
+function Swarm({ count, dummy = new THREE.Object3D() }: { count: number, dummy?: THREE.Object3D }) {
+  const mesh = useRef<THREE.InstancedMesh | null>(null)
+  const light = useRef<THREE.PointLight | null>(null)
+  const particles = useMemo(() => {
+    const temp = []
+    for (let i = 0; i < count; i++) {
+      const t = Math.random() * 100
+      const factor = 20 + Math.random() * 100
+      const speed = 0.01 + Math.random() / 200
+      const xFactor = -50 + Math.random() * 100
+      const yFactor = -50 + Math.random() * 100
+      const zFactor = -50 + Math.random() * 100
+      temp.push({ t, factor, speed, xFactor, yFactor, zFactor, mx: 0, my: 0 })
+    }
+    return temp
+  }, [count])
+  useFrame((state) => {
+    light.current?.position.set((-state.pointer.x * state.viewport.width) / 5, (-state.pointer.y * state.viewport.height) / 5, 0)
+    particles.forEach((particle, i) => {
+      let { t } = particle
+      const { factor, speed, xFactor, yFactor, zFactor } = particle
+      t = particle.t += speed / 2
+      const a = Math.cos(t) + Math.sin(t * 1) / 10
+      const b = Math.sin(t) + Math.cos(t * 2) / 10
+      const s = Math.cos(t)
+      particle.mx += (state.pointer.x * 1000 - particle.mx) * 0.01
+      particle.my += (state.pointer.y * 1000 - 1 - particle.my) * 0.01
+      dummy.position.set(
+        (particle.mx / 10) * a + xFactor + Math.cos((t / 10) * factor) + (Math.sin(t * 1) * factor) / 10,
+        (particle.my / 10) * b + yFactor + Math.sin((t / 10) * factor) + (Math.cos(t * 2) * factor) / 10,
+        (particle.my / 10) * b + zFactor + Math.cos((t / 10) * factor) + (Math.sin(t * 3) * factor) / 10
+      )
+      dummy.scale.setScalar(s)
+      dummy.rotation.set(s * 5, s * 5, s * 5)
+      dummy.updateMatrix()
+      mesh.current?.setMatrixAt(i, dummy.matrix)
+    })
+    mesh.current!.instanceMatrix.needsUpdate = true
+  })
+  return (
+    <>
+      <pointLight ref={light} distance={40} intensity={8} color="lightblue">
+        <mesh scale={[1, 1, 6]}>
+          <dodecahedronGeometry args={[4, 0]} />
+        </mesh>
+      </pointLight>
+      <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
+        <dodecahedronGeometry args={[1, 0]} />
+        <meshStandardMaterial color="#020000" roughness={0.5} />
+      </instancedMesh>
+    </>
+  )
+}
+
+function Postpro() {
+  const water = useRef<WaterPass | null>(null)
+  const data = useLoader(LUTCubeLoader, '/cubicle.CUBE')
+  useFrame((state) => (water.current!.time = state.clock.elapsedTime * 4))
+  return (
+    <Effects disableGamma>
+      <waterPass ref={water} factor={1} />
+      <unrealBloomPass args={[undefined, 1.25, 1, 0]} />
+      <filmPass args={[0.2, 0.5, 1500, false]} />
+      <lUTPass lut={data.texture} intensity={0.75} />
+    </Effects>
+  )
+}
+
