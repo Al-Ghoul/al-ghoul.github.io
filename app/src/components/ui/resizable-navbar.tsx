@@ -65,6 +65,10 @@ export const NavbarWrapper = ({ children, className }: NavbarProps) => {
     <motion.div
       ref={ref}
       className={cn("fixed inset-x-0 top-2 z-40 w-full", className)}
+      initial={{ y: -50, }}
+      animate={{ y: 5, }}
+      exit={{ y: -50, }}
+      transition={{ duration: 0.5 }}
     >
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
