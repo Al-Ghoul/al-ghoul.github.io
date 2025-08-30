@@ -1,7 +1,7 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import FluidCanvas from "@/components/FluidCanvas";
 import { Navbar } from "@/components/ui/Navbar";
 
 const geistSans = Geist({
@@ -31,6 +31,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <FluidCanvas />
       </body>
     </html>
   );
