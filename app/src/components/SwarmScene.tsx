@@ -1,14 +1,29 @@
 "use client";
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, extend, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { CameraShake, Effects } from '@react-three/drei'
 import { FilmPass, WaterPass, UnrealBloomPass, LUTPass, LUTCubeLoader } from 'three-stdlib'
+import { cn } from '@/lib/utils';
 extend({ WaterPass, UnrealBloomPass, FilmPass, LUTPass })
 
-export default function SwarmScene() {
+export default function SwarmScene({ className }: { className?: string }) {
   return (
-    <Canvas className="w-full h-full" dpr={1} camera={{ fov: 100, position: [0, 0, 30] }}>
+    <Canvas
+      className={cn("w-full h-full", className)}
+      dpr={1}
+      camera={{ fov: 100, position: [0, 0, 30] }}
+    >
+      <SceneContent />
+    </Canvas>
+  );
+}
+
+function SceneContent() {
+
+  return (
+    <>
+      <GlobalPointer />
       <ambientLight intensity={0.01} />
       <pointLight distance={60} intensity={4} decay={0} color="lightblue" />
       <spotLight
@@ -30,10 +45,9 @@ export default function SwarmScene() {
       <Swarm count={10000} />
       <Postpro />
       <Rig />
-    </Canvas>
+    </>
   );
 }
-
 
 function Swarm({ count, dummy = new THREE.Object3D() }: { count: number, dummy?: THREE.Object3D }) {
   const mesh = useRef<THREE.InstancedMesh | null>(null)
@@ -81,6 +95,7 @@ function Swarm({ count, dummy = new THREE.Object3D() }: { count: number, dummy?:
           <dodecahedronGeometry args={[4, 0]} />
         </mesh>
       </pointLight>
+      *
       <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
         <dodecahedronGeometry args={[1, 0]} />
         <meshStandardMaterial color="#020000" roughness={0.5} />
@@ -105,9 +120,26 @@ function Postpro() {
 
 function Rig() {
   const [vec] = useState(() => new THREE.Vector3())
-  const { camera, mouse } = useThree()
-  useFrame(() => camera.position.lerp(vec.set(mouse.x * 2, 1, 60), 0.05))
+  const { camera, pointer } = useThree()
+  useFrame(() => camera.position.lerp(vec.set(pointer.x * 2, 1, 60), 0.05))
   return <CameraShake maxYaw={0.01} maxPitch={0.1} maxRoll={0.1} yawFrequency={0.1} pitchFrequency={0.5} rollFrequency={0.4} />
 }
 
+function GlobalPointer() {
+  const store = useThree((state) => state)
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1
+      const y = -(e.clientY / window.innerHeight) * 2 + 1
+
+      store.pointer.x = x
+      store.pointer.y = y
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [store])
+
+  return null
+}
