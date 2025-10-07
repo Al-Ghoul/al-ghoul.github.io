@@ -20,7 +20,6 @@ export default function SwarmScene({ className }: { className?: string }) {
 }
 
 function SceneContent() {
-
   return (
     <>
       <GlobalPointer />
@@ -89,18 +88,10 @@ function Swarm({ count, dummy = new THREE.Object3D() }: { count: number, dummy?:
     mesh.current!.instanceMatrix.needsUpdate = true
   })
   return (
-    <>
-      <pointLight ref={light} distance={40} intensity={8} color="lightblue">
-        <mesh scale={[1, 1, 6]}>
-          <dodecahedronGeometry args={[4, 0]} />
-        </mesh>
-      </pointLight>
-      *
-      <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-        <dodecahedronGeometry args={[1, 0]} />
-        <meshStandardMaterial color="#020000" roughness={0.5} />
-      </instancedMesh>
-    </>
+    <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
+      <dodecahedronGeometry args={[1, 0]} />
+      <meshStandardMaterial color="#020000" roughness={0.5} />
+    </instancedMesh>
   )
 }
 
