@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
+import { withContentlayer } from "next-contentlayer2";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  turbopack: {
+    resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
+  }
 };
 
-export default nextConfig;
+export default withContentlayer(nextConfig);
