@@ -7,9 +7,11 @@ import { format, parseISO } from "date-fns";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import { Post } from "contentlayer/generated";
 import { ar } from "date-fns/locale";
+import { useI18nContext } from "@/i18n/i18n-react";
 
 export function PostCard(post: Post) {
-  const textDirection = post.lang === "ar" ? "rtl" : "ltr";
+  const { locale, LL } = useI18nContext();
+  const TEXT_DIRECTION = post.lang === "ar" ? "rtl" : "ltr";
 
   return (
     <CardContainer className="inter-var">
@@ -28,7 +30,7 @@ export function PostCard(post: Post) {
         <CardItem
           translateZ="50"
           className="text-2xl font-bold text-neutral-800 dark:text-white"
-          dir={textDirection}
+          dir={TEXT_DIRECTION}
         >
           <Link href={post.url} className="hover:underline">
             {post.title}
@@ -40,9 +42,9 @@ export function PostCard(post: Post) {
           as="time"
           translateZ="40"
           className="block text-xs text-neutral-500 dark:text-neutral-400 mt-1"
-          dir={textDirection}
+          dir={TEXT_DIRECTION}
         >
-          {format(parseISO(post.date), "LLLL d, yyyy", { locale: post.lang === "ar" ? ar : undefined })}
+          {format(parseISO(post.date), "LLLL d, yyyy", { locale: locale === "ar" ? ar : undefined })}
         </CardItem>
 
         {/* Excerpt */}
@@ -50,7 +52,7 @@ export function PostCard(post: Post) {
           <CardItem
             as="p"
             translateZ="60"
-            dir={textDirection}
+            dir={TEXT_DIRECTION}
             className="text-neutral-600 dark:text-neutral-300 text-sm mt-4"
           >
             {post.excerpt}
@@ -62,7 +64,7 @@ export function PostCard(post: Post) {
           translateZ={60}
           as="div"
           className="mt-6 flex justify-start"
-          dir={textDirection}
+          dir={locale === "ar" ? "rtl" : "ltr"}
         >
           <Link
             href={post.url}
@@ -77,7 +79,7 @@ export function PostCard(post: Post) {
               shadow-md hover:shadow-lg
             "
           >
-            {post.lang === "ar" ? "قراءة المزيد ←" : "Read more →"}
+            {LL.READ_MORE()}
           </Link>
         </CardItem>
 
