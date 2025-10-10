@@ -121,12 +121,20 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await loadAllLocalesAsync();
+  const headersList = await headers();
+  let locale: Locales = "en";
+  const requestedLocale = headersList.get("Accept-Language")?.split(",")[0] ?? "en";
+
+  if (requestedLocale.includes("ar")) locale = "ar";
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
