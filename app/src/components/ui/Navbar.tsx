@@ -24,9 +24,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
+  const { LL, locale } = useI18nContext();
+  const TEXT_DIRECTION = locale === "ar" ? "rtl" : "ltr";
+
   const navItems = [
     {
-      name: "Home",
+      name: LL.HOME(),
       link: "/",
     },
   ];
@@ -43,7 +46,7 @@ export function Navbar() {
           <LanguageSelector />
           <NavbarLinkButton url="https://github.com/Al-Ghoul/al-ghoul">
             <IconBrandGithub className="text-white dark:text-black" />
-            <span>Github Repo</span>
+            <span>{LL.GITHUB_REPOSITORY()}</span>
           </NavbarLinkButton>
         </div>
       </NavBody>
@@ -76,7 +79,7 @@ export function Navbar() {
             <LanguageSelector />
             <NavbarLinkButton className="justify-center" url="https://github.com/Al-Ghoul/al-ghoul">
               <IconBrandGithub className="text-white dark:text-black" />
-              <span>Github Repo</span>
+              <span>{LL.GITHUB_REPOSITORY()}</span>
             </NavbarLinkButton>
           </div>
         </MobileNavMenu>
