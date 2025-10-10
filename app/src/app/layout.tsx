@@ -4,6 +4,7 @@ import "./globals.css";
 import FluidCanvas from "@/components/FluidCanvas";
 import { Navbar } from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import I18NProvider from "@/components/I18NProvider";
 import Preloader from "@/components/PreLoader";
 
 const geistSans = Geist({
@@ -31,12 +32,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <I18NProvider>
           <Preloader >
             <Navbar />
             {children}
             <Footer />
           </Preloader>
           <FluidCanvas />
+        </I18NProvider>
       </body>
     </html>
   );

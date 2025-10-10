@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 .contentlayer
+
+src/i18n/*.tsx
+src/i18n/*.ts
+!src/i18n/formatters.ts

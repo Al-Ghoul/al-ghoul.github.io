@@ -7,7 +7,8 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "build:content": "contentlayer2 build"
+    "build:content": "contentlayer2 build",
+    "typesafe-i18n": "typesafe-i18n"
   },
   "dependencies": {
     "@react-three/drei": "10.7.4",
@@ -25,7 +26,8 @@
     "strip-markdown": "6.0.0",
     "tailwind-merge": "3.3.1",
     "three": "0.179.1",
-    "three-stdlib": "2.36.0"
+    "three-stdlib": "2.36.0",
+    "typesafe-i18n": "5.26.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
