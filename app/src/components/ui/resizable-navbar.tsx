@@ -8,8 +8,22 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import localFont from "next/font/local";
 import Link from "next/link";
 import React, { ComponentProps, useEffect, useRef, useState } from "react";
+
+export const lemonBrushFont = localFont({
+  src: [
+    {
+      path: "../../../public/LemonBrushArabic-Regular.otf",
+      style: "normal",
+    },
+    {
+      path: "../../../public/LemonBrushEnglish-Regular.otf",
+      style: "normal",
+    }
+  ]
+});
 
 export const NavbarWrapper = ({ children, className, isSearchOpen }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -207,7 +221,7 @@ export const NavbarLogo = () => {
       className="flex space-x-2 text-sm font-normal"
     >
       <IconHome className="text-black dark:text-white" />
-      <span className="font-bold text-lg my-auto text-black dark:text-white">{LL.SURNAME()}</span>
+      <span className={`font-bold text-lg my-auto text-black dark:text-white ${lemonBrushFont.className}`}>{LL.SURNAME()}</span>
     </Link>
   );
 };

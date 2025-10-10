@@ -1,6 +1,7 @@
 "use client";
 import { useI18nContext } from "@/i18n/i18n-react";
 import { Github, Linkedin, Twitter, Mail, ExternalLink } from "lucide-react";
+import { lemonBrushFont } from "./resizable-navbar";
 import { cn } from "@/lib/utils";
 
 export default function Footer() {
@@ -13,7 +14,7 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           {/* Left side - Name/Brand */}
           <div className={cn("text-center md:text-left", { "text-right": TEXT_DIRECTION === "rtl" })}>
-            <h3 className="text-lg font-semibold text-foreground">{LL.AUTHOR_NAME()}</h3>
+            <h3 className={`text-lg font-semibold text-foreground ${lemonBrushFont.className}`}>{LL.AUTHOR_NAME()}</h3>
             <p className="font-extralight">{LL.AUTHOR_ROLE()}</p>
           </div>
 
