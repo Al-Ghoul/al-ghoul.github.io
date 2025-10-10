@@ -1,14 +1,20 @@
+"use client";
+import { useI18nContext } from "@/i18n/i18n-react";
 import { Github, Linkedin, Twitter, Mail, ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Footer() {
+  const { locale, LL } = useI18nContext();
+  const TEXT_DIRECTION = locale === "ar" ? "rtl" : "ltr";
+  
   return (
-    <footer className="border-t bg-white/30 dark:bg-black/30">
+    <footer className="border-t bg-white/30 dark:bg-black/30" dir={TEXT_DIRECTION}>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           {/* Left side - Name/Brand */}
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-semibold text-foreground">Abdulrahman AlGhoul</h3>
-            <p className="text-sm text-muted-foreground">Software Developer & Tech Writer</p>
+          <div className={cn("text-center md:text-left", { "text-right": TEXT_DIRECTION === "rtl" })}>
+            <h3 className="text-lg font-semibold text-foreground">{LL.AUTHOR_NAME()}</h3>
+            <p className="font-extralight">{LL.AUTHOR_ROLE()}</p>
           </div>
 
           {/* Center - Social Links */}
@@ -57,7 +63,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
             >
-              Resume
+              {LL.RESUME()}
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
@@ -66,7 +72,7 @@ export default function Footer() {
         {/* Bottom section */}
         <div className="mt-8 border-t pt-6 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Abdulrahman AlGhoul. Built with Next.js and deployed on Github.
+            © {new Date().getFullYear()} <span className={"font-bold"}>{LL.AUTHOR_NAME()}</span>. {LL.DESCRIPTION()}.
           </p>
         </div>
       </div>
