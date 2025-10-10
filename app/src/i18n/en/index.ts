@@ -8,6 +8,7 @@ const en = {
   READ_MORE: "Read more →",
 
   // Author related
+  SURNAME: "AlGhoul",
   AUTHOR_NAME: "Abdulrahman AlGhoul",
   AUTHOR_ROLE: "Software Developer & Tech Writer",
   DESCRIPTION: "Built with Next.js and deployed on Github",

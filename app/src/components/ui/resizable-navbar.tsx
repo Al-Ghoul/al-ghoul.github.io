@@ -1,4 +1,5 @@
 "use client";
+import { useI18nContext } from "@/i18n/i18n-react";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX, IconHome } from "@tabler/icons-react";
 import {
@@ -8,7 +9,7 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ComponentProps, useEffect, useRef, useState } from "react";
 
 export const NavbarWrapper = ({ children, className, isSearchOpen }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -199,24 +200,37 @@ export const MobileNavToggle = ({
 };
 
 export const NavbarLogo = () => {
+  const { LL } = useI18nContext();
   return (
     <Link
       href="/"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="flex space-x-2 text-sm font-normal"
     >
       <IconHome className="text-black dark:text-white" />
-      <span className="font-bold text-black dark:text-white">AlGhoul</span>
+      <span className="font-bold text-lg my-auto text-black dark:text-white">{LL.SURNAME()}</span>
     </Link>
   );
 };
 
 
-export function NavbarLinkButton({ children, className, url = "#" }: { children: React.ReactNode, className?: string, url?: string }) {
+export function NavbarLinkButton({
+  children,
+  className,
+  url = "#",
+  ...props
+}:
+  {
+    children: React.ReactNode,
+    className?: string,
+    url?: string,
+  } & ComponentProps<"a">) {
   return (
     <Link
       className={cn("flex items-center px-2 py-2 rounded-lg bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 text-center", className)}
       href={url}
       target="_blank"
+      rel="noopener noreferrer"
+      {...props}
     >
       {children}
     </Link>

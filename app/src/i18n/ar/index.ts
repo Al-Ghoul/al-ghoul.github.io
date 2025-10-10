@@ -8,6 +8,7 @@ const ar = {
   READ_MORE: "قراءة المزيد ←",
 
   // Author related
+  SURNAME: "الغول",
   AUTHOR_NAME: "عبد الرحمن الغول",
   AUTHOR_ROLE: "مطور و كاتب تقني",
   DESCRIPTION: "تم بناءه بواسطة Next.js ونشره على Github",
