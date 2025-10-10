@@ -4,6 +4,7 @@ import "./globals.css";
 import FluidCanvas from "@/components/FluidCanvas";
 import { Navbar } from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import Preloader from "@/components/PreLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-        <FluidCanvas />
-        <Footer />
+          <Preloader >
+            <Navbar />
+            {children}
+            <Footer />
+          </Preloader>
+          <FluidCanvas />
       </body>
     </html>
   );
