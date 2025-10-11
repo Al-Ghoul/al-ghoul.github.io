@@ -70,8 +70,8 @@ export async function generateMetadata({
         {
           url:
             locale === "ar"
-              ? `${BASE_URL}/ar/ar_social_image.png`
-              : `${BASE_URL}/en/en_social_image.png`,
+              ? `${BASE_URL}/ar_social_image.png`
+              : `${BASE_URL}/en_social_image.png`,
           width: 1800,
           height: 826,
           alt: LL[locale].PREVIEW_IMAGE_ALT,
@@ -90,8 +90,8 @@ export async function generateMetadata({
         {
           url:
             locale === "ar"
-              ? `${BASE_URL}/ar/ar_social_image.png`
-              : `${BASE_URL}/en/en_social_image.png`,
+              ? `${BASE_URL}/ar_social_image.png`
+              : `${BASE_URL}/en_social_image.png`,
           width: 1800,
           height: 826,
           alt: LL[locale].PREVIEW_IMAGE_ALT,
