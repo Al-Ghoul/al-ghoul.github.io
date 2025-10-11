@@ -41,6 +41,10 @@ jobs:
       - name: Generate i18n files
         run: bun ./node_modules/typesafe-i18n/cli/typesafe-i18n.mjs --no-watch
         working-directory: ./app
+        
+      - name: Build blog content
+        run: bun run build:content
+        working-directory: ./app
 
       - name: Build with Next.js
         run: bun run build
