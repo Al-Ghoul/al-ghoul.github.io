@@ -1,4 +1,5 @@
 ---
+import Preloader from "../components/ui/preloader";
 import "../styles/global.css";
 
 interface Props {
@@ -18,6 +19,8 @@ const { locale, title } = Astro.props;
 		<title>{title}</title>
 	</head>
   <body>
-    <slot />
+    <Preloader client:only>
+      <slot />
+    </Preloader>
 	</body>
 </html>
