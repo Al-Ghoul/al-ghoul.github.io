@@ -1,16 +1,22 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {Navbar} from "../components/ui/core/Navbar";
+const navItems = [
+  {
+    name: "الرئيسية",
+    link: "/"
+  }
+];
 ---
 
-<html lang="ar">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>مدونة عبدالرحمن الغول</title>
-	</head>
-	<body>
-		<h1>الغول</h1>
-	</body>
-</html>
+<BaseLayout locale="ar" title="مدونة عبد الرحمن الغول">
+  <main class="h-screen">
+    <Navbar 
+      locale="ar" 
+      navItems={navItems}
+      logo="الغول"
+      githubText="المستودع" 
+      client:only
+    />
+  </main>
+</BaseLayout>
