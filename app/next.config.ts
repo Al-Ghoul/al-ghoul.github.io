@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
   },
 
   output: isDev ? undefined : "export",
-  basePath: isDev ? undefined : "/al-ghoul",
+  
   images: {
     unoptimized: true,
   },
