@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import FluidCanvas from "@/components/FluidCanvas";
 import { Navbar } from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
@@ -8,8 +8,7 @@ import I18NProvider from "@/components/I18NProvider";
 import Preloader from "@/components/PreLoader";
 import { loadAllLocalesAsync } from "@/i18n/i18n-util.async";
 import { loadedLocales } from "@/i18n/i18n-util";
-import { headers } from "next/headers";
-import { Locales } from "@/i18n/i18n-types";
+import type { Locales } from "@/i18n/i18n-types";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,16 +20,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Readonly<{
+  params: Promise<{ locale: string }>
+}>): Promise<Metadata> {
   await loadAllLocalesAsync();
-  const headersList = await headers();
-  let locale: Locales = "en";
-  const requestedLocale = headersList.get("Accept-Language")?.split(",")[0] ?? "en";
-
-  if (requestedLocale.includes("ar")) locale = "ar";
-
+  const { locale } = await params as { locale: Locales };
   const LL = loadedLocales;
-
   const BASE_URL = "https://al-ghoul.github.io";
 
   return {
@@ -54,7 +51,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     metadataBase: new URL(BASE_URL),
     alternates: {
-      canonical: '/',
+      canonical: `/${locale}`,
+      languages: {
+        ar: "/ar",
+        en: "/en",
+      },
     },
     openGraph: {
       title: LL[locale].AUTHOR_NAME,
@@ -63,22 +64,18 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: LL[locale].AUTHOR_NAME,
       alternateLocale: ["ar", "en"].filter((l) => l !== locale),
       locale,
-      url: "https://al-ghoul.github.io",
+      url: `${BASE_URL}/${locale}`,
       ttl: 3600,
-      images: locale == "ar" ? [
+      images: [
         {
-          url: `${BASE_URL}/ar_social_image.png`,
+          url:
+            locale === "ar"
+              ? `${BASE_URL}/ar/ar_social_image.png`
+              : `${BASE_URL}/en/en_social_image.png`,
           width: 1800,
           height: 826,
-          alt: LL[locale].PREVIEW_IMAGE_ALT
-        }
-      ] : [
-        {
-          url: `${BASE_URL}/en_social_image.png`,
-          width: 1779,
-          height: 734,
-          alt: LL[locale].PREVIEW_IMAGE_ALT
-        }
+          alt: LL[locale].PREVIEW_IMAGE_ALT,
+        },
       ],
     },
     twitter: {
@@ -87,58 +84,51 @@ export async function generateMetadata(): Promise<Metadata> {
       description: LL[locale].SITE_DESCRIPTION,
       site: "@abdo_alghoul",
       siteId: "960225296258564096",
-      creator: "@@abdo_alghoul",
+      creator: "@abdo_alghoul",
       creatorId: "960225296258564096",
-      images: locale == "ar" ? [
+      images: [
         {
-          url: `${BASE_URL}/ar_social_image.png`,
+          url:
+            locale === "ar"
+              ? `${BASE_URL}/ar/ar_social_image.png`
+              : `${BASE_URL}/en/en_social_image.png`,
           width: 1800,
           height: 826,
-          alt: LL[locale].PREVIEW_IMAGE_ALT
-        }
-      ] : [
-        {
-          url: `${BASE_URL}/en_social_image.png`,
-          width: 1779,
-          height: 734,
-          alt: LL[locale].PREVIEW_IMAGE_ALT
-        }
+          alt: LL[locale].PREVIEW_IMAGE_ALT,
+        },
       ],
     },
     robots: {
       index: true,
       follow: true,
-      nocache: false,
       googleBot: {
         index: true,
         follow: true,
         noimageindex: false,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
-  }
+  };
 }
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>
 }>) {
   await loadAllLocalesAsync();
-  const headersList = await headers();
-  let locale: Locales = "en";
-  const requestedLocale = headersList.get("Accept-Language")?.split(",")[0] ?? "en";
-
-  if (requestedLocale.includes("ar")) locale = "ar";
+  const { locale } = await params as { locale: Locales };
 
   return (
     <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <I18NProvider>
+        <I18NProvider locale={locale}>
           <Preloader >
             <Navbar />
             {children}
@@ -150,3 +140,4 @@ export default async function RootLayout({
     </html>
   );
 }
+
