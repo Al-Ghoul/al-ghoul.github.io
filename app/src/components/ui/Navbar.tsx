@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { redirect, RedirectType } from "next/navigation";
 
 export function Navbar() {
   const { LL, locale } = useI18nContext();
@@ -44,7 +45,7 @@ export function Navbar() {
         <NavItems items={navItems} />
         <div className="flex items-center gap-4 relative z-30">
           <LanguageSelector />
-          <NavbarLinkButton url="https://github.com/Al-Ghoul/al-ghoul">
+          <NavbarLinkButton url="https://github.com/Al-Ghoul/al-ghoul" dir={TEXT_DIRECTION}>
             <IconBrandGithub className="text-white dark:text-black" />
             <span>{LL.GITHUB_REPOSITORY()}</span>
           </NavbarLinkButton>
@@ -91,7 +92,7 @@ export function Navbar() {
 
 
 function LanguageSelector() {
-  const { LL, locale, setLocale } = useI18nContext();
+  const { LL, locale } = useI18nContext();
   const TEXT_DIRECTION = locale === "ar" ? "rtl" : "ltr";
 
   return (
@@ -104,14 +105,14 @@ function LanguageSelector() {
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           checked={locale === "ar"}
-          onCheckedChange={() => setLocale("ar")}
+          onCheckedChange={() => redirect("/ar", RedirectType.push)}
           dir="rtl"
         >
           العربية
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={locale === "en"}
-          onCheckedChange={() => setLocale("en")}
+          onCheckedChange={() => redirect("/en", RedirectType.push)}
         >
           English
         </DropdownMenuCheckboxItem>
