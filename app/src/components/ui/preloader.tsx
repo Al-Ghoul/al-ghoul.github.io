@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import logoUrl from "../../assets/logo.svg?url";
 
@@ -7,9 +7,10 @@ export default function Preloader({ children, onComplete, minDisplayTime = 2000 
   onComplete?: () => void,
   minDisplayTime?: number
 }) {
+  const isDev = import.meta.env.DEV;
   const [logoComplete, setLogoComplete] = useState(false);
   const [minTimeComplete, setMinTimeComplete] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(!isDev);
 
   useEffect(() => {
     const timer = setTimeout(() => setMinTimeComplete(true), minDisplayTime);
@@ -53,7 +54,8 @@ export default function Preloader({ children, onComplete, minDisplayTime = 2000 
             <Logo onAnimationComplete={() => setLogoComplete(true)} logoUrl={logoUrl} duration={4} />
 
             <motion.div
-              className="mt-8 flex space-x-1"
+              className="mt-8 flex gap-x-1"
+
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
