@@ -1,4 +1,5 @@
 ---
+import FluidCanvas from "../components/ui/core/scenes/FluidCanvas";
 import Preloader from "../components/ui/preloader";
 import "../styles/global.css";
 
@@ -23,5 +24,6 @@ const { locale, title } = Astro.props;
       <slot />
       <slot name="footer" />
     </Preloader>
+    <FluidCanvas client:only/>
 	</body>
 </html>
