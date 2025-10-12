@@ -21,6 +21,7 @@ const { locale, title } = Astro.props;
   <body>
     <Preloader client:only>
       <slot />
+      <slot name="footer" />
     </Preloader>
 	</body>
 </html>

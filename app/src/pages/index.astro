@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {Navbar} from "../components/ui/core/Navbar";
+import Footer from "../components/ui/core/Footer";
 const navItems = [
   {
     name: "الرئيسية",
@@ -10,13 +11,20 @@ const navItems = [
 ---
 
 <BaseLayout locale="ar" title="مدونة عبد الرحمن الغول">
-  <main class="h-screen">
-    <Navbar 
+ <Navbar 
       locale="ar" 
       navItems={navItems}
       logo="الغول"
       githubText="المستودع" 
       client:only
-    />
+  />
+  <main class="h-screen">
   </main>
+  <Footer
+    slot="footer"
+    locale="ar"
+    authorName="عبد الرحمن الغول"
+    authorRole="مطور و كاتب تقني"
+    description="تم بناءه بواسطة Next.js ونشره على Github"
+  />
 </BaseLayout>
