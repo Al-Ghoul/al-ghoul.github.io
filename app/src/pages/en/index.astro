@@ -3,12 +3,31 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import {Navbar} from "../../components/ui/core/Navbar";
 import Footer from "../../components/ui/core/Footer";
 import SwarmScene from "../../components/ui/core/scenes/SwarmScene";
-const navItems = [
-  {
-    name: "Home",
-    link: "/"
-  }
-];
+import { getCollection } from "astro:content";
+import {PostCard} from "../../components/ui/posts/PostCard";
+import { generateExcerptFromMarkdown, getCategoryCounts, getTagCounts } from "@lib/posts";
+import { Sidebar } from "@components/ui/posts/Sidebar";
+import { HeroParallax } from "@components/ui/hero-parallax";
+import { PRODUCTS } from "@lib/data";
+import MobileAppShowcase from "@components/ui/core/scenes/MobileAppShowcase";
+ 
+const postsWithExcerpts = await Promise.all(
+  (await getCollection("posts"))
+    .filter((post) => !post.data.draft)
+    .filter((post) => post.data.lang === "en")
+    .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+    .slice(0, 3)
+    .map(async (post) => {
+      const excerpt = await generateExcerptFromMarkdown(post.body ?? "", 160);
+      return {
+        ...post,
+        excerpt
+      };
+    })
+);
+
+const categories = await getCategoryCounts();
+const tags = await getTagCounts();
 ---
 
 <BaseLayout locale="en" title="Abdulrahman AlGhoul's Blog">
@@ -24,8 +43,18 @@ const navItems = [
     <div class="fixed inset-0 -z-10">
       <SwarmScene  client:only/>
     </div>
+    <section class="flex flex-col md:flex-row container justify-center p-4 md:p-8 mx-auto mt-30 md:mt-20 gap-8">
+      <div>
+        <h1 class="text-3xl font-bold mb-6">Recent Posts</h1>
+        <div class="flex flex-col gap-4">
+          {postsWithExcerpts.map((post) => (
+            <PostCard post={post} locale="en" READ_MORE_TEXT="Read more →" client:only />
+          ))}
+        </div>
+      </div>
+    </section>
   </main>
-  
+
   <Footer
     slot="footer"
     locale="en"
