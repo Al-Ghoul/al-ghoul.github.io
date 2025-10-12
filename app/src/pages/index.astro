@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {Navbar} from "../components/ui/core/Navbar";
 import Footer from "../components/ui/core/Footer";
+import SwarmScene from "../components/ui/core/scenes/SwarmScene";
 const navItems = [
   {
     name: "الرئيسية",
@@ -18,8 +19,13 @@ const navItems = [
       githubText="المستودع" 
       client:only
   />
+  
   <main class="h-screen">
+      <div class="fixed inset-0 -z-10">
+        <SwarmScene  client:only/>
+      </div>
   </main>
+
   <Footer
     slot="footer"
     locale="ar"
