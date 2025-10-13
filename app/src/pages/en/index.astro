@@ -40,7 +40,7 @@ const tags = await getTagCounts();
     client:visible
   />
   
-  <main class="h-screen">
+  <main class="min-h-screen">
     <div class="fixed inset-0 -z-10">
       <SwarmScene  client:only/>
     </div>
@@ -55,6 +55,10 @@ const tags = await getTagCounts();
       </div>
       
       <Sidebar categories={categories} tags={tags} client:only/>
+    </section>
+    
+    <section>
+      <HeroParallax products={products} client:only/>
     </section>
   </main>
 

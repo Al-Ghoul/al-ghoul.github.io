@@ -8,8 +8,14 @@ import {PostCard} from "../components/ui/posts/PostCard";
 import { generateExcerptFromMarkdown, getCategoryCounts, getTagCounts } from "@lib/posts";
 import { Sidebar } from "@components/ui/posts/Sidebar";
 import { HeroParallax } from "@components/ui/hero-parallax";
-import { PRODUCTS } from "@lib/data";
-import MobileAppShowcase from "@components/ui/core/scenes/MobileAppShowcase";
+import { products } from "@lib/data";
+  
+const navItems = [
+  {
+    name: "الرئيسية",
+    link: "/"
+  }
+];
 
 const postsWithExcerpts = await Promise.all(
   (await getCollection("posts"))
@@ -39,7 +45,7 @@ const tags = await getTagCounts();
     client:only
   />
   
-  <main class="h-screen">
+  <main class="min-h-screen">
     <div class="fixed inset-0 -z-10">
       <SwarmScene  client:only/>
     </div>
@@ -55,6 +61,10 @@ const tags = await getTagCounts();
       </div>
 
       <Sidebar categories={categories} tags={tags} client:only/>
+    </section>
+    
+    <section>
+      <HeroParallax products={products} client:only/>
     </section>
   </main>
 
