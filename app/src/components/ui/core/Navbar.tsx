@@ -11,12 +11,15 @@ import {
 } from "../resizeable-navbar";
 import { useState } from "react";
 import { IconBrandGithub } from "@tabler/icons-react";
+import type { LanguageSelectorProps } from "../LanguageSelector";
+import LanguageSelector from "@components/ui/LanguageSelector";
 
 export function Navbar({
   locale,
   logo,
   navItems,
-  githubText
+  githubText,
+  languageSelectorProps
 }: {
   locale: string;
   logo: string;
@@ -24,7 +27,8 @@ export function Navbar({
     name: string;
     link: string;
   }[];
-  githubText: string
+  githubText: string;
+  languageSelectorProps?: LanguageSelectorProps;
 }
 ) {
   const TEXT_DIRECTION = locale === "ar" ? "rtl" : "ltr";
@@ -38,7 +42,7 @@ export function Navbar({
         <NavbarLogo title={logo} />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4 relative z-30">
-          { /* <LanguageSelector /> */}
+          <LanguageSelector {...languageSelectorProps} />
           <NavbarLinkButton url="https://github.com/Al-Ghoul/al-ghoul" dir={TEXT_DIRECTION}>
             <IconBrandGithub className="text-white dark:text-black" />
             <span>{githubText}</span>
@@ -55,7 +59,6 @@ export function Navbar({
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           />
         </MobileNavHeader>
-
         <MobileNavMenu
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
@@ -71,7 +74,7 @@ export function Navbar({
             </a>
           ))}
           <div className="flex w-full flex-col gap-4">
-            { /* <LanguageSelector /> */}
+            <LanguageSelector {...languageSelectorProps} />
             <NavbarLinkButton className="justify-center" url="https://github.com/Al-Ghoul/al-ghoul">
               <IconBrandGithub className="text-white dark:text-black" />
               <span>{githubText}</span>

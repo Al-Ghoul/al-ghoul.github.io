@@ -32,11 +32,12 @@ const tags = await getTagCounts();
 
 <BaseLayout locale="en" title="Abdulrahman AlGhoul's Blog">
   <Navbar 
-      locale="en" 
-      navItems={navItems}
-      logo="AlGhoul"
-      githubText="Github Repository" 
-      client:visible
+    locale="en" 
+    navItems={navItems}
+    logo="AlGhoul"
+    githubText="Github Repository" 
+    languageSelectorProps={{ locale: "en", title: "Language", label: "Pick a language" }}
+    client:visible
   />
   
   <main class="h-screen">
