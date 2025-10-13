@@ -9,6 +9,7 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://al-ghoul.github.io",
   integrations: [react(), mdx()],
 
   i18n: {
