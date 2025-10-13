@@ -1,4 +1,4 @@
-export const products = [
+export const PRODUCTS = [
   {
     title: "Moonbeam",
     link: "https://gomoonbeam.com",
@@ -91,6 +91,28 @@ export const products = [
     link: "https://efreeinvoice.com",
     thumbnail:
       "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+  },
+];
+
+
+export const PROJECTS = [
+  {
+    id: "proj1",
+    title: "Finance Tracker",
+    description: "Track expenses, generate reports, and manage budgets.",
+    videos: [
+      { src: "/output-1.webm", label: "Login & Auth" },
+      { src: "/video-1.mp4", label: "Dashboard Overview" },
+    ],
+  },
+  {
+    id: "proj2",
+    title: "Food Delivery",
+    description: "Browse restaurants, order meals, and track deliveries.",
+    videos: [
+      { src: "/output-1.webm", label: "Restaurant Listing" },
+      { src: "/video-1.mp4", label: "Shopping Cart" },
+    ],
   },
 ];
 

@@ -8,7 +8,8 @@ import {PostCard} from "../components/ui/posts/PostCard";
 import { generateExcerptFromMarkdown, getCategoryCounts, getTagCounts } from "@lib/posts";
 import { Sidebar } from "@components/ui/posts/Sidebar";
 import { HeroParallax } from "@components/ui/hero-parallax";
-import { products } from "@lib/data";
+import { PRODUCTS } from "@lib/data";
+import MobileAppShowcase from "@components/ui/core/scenes/MobileAppShowcase";
   
 const navItems = [
   {
@@ -64,7 +65,11 @@ const tags = await getTagCounts();
     </section>
     
     <section>
-      <HeroParallax products={products} client:only/>
+      <HeroParallax products={PRODUCTS} client:only/>
+    </section>
+
+    <section id="projects-section" class="relative w-full h-screen mt-20">
+      <MobileAppShowcase client:only/>
     </section>
   </main>
 

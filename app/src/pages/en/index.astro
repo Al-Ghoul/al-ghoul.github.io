@@ -54,13 +54,17 @@ const tags = await getTagCounts();
         </div>
       </div>
       
-      <Sidebar categories={categories} tags={tags} client:only/>
+      <Sidebar locale="en" categories={categories} tags={tags} client:only/>
     </section>
     
     <section>
-      <HeroParallax products={products} client:only/>
+      <HeroParallax products={PRODUCTS} client:only/>
     </section>
-  </main>
+    
+    <section id="projects-section" class="relative w-full h-screen mt-20">
+      <MobileAppShowcase locale="en" client:only/>
+    </section>
+   </main>
 
   <Footer
     slot="footer"
