@@ -53,6 +53,8 @@ const tags = await getTagCounts();
           ))}
         </div>
       </div>
+      
+      <Sidebar categories={categories} tags={tags} client:only/>
     </section>
   </main>
 
