@@ -1,0 +1,38 @@
+---
+import BaseEnglishLayout from "@layouts/BaseEnglishLayout.astro";
+import { getCollection, render } from "astro:content";
+import PostContent from "@components/ui/posts/PostContent";
+import SpaceBoyScene from "@components/ui/core/scenes/SpaceBoyScene";
+
+export async function getStaticPaths() {
+ const allPosts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .filter((post) => post.data.lang === "en")
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0, 3);
+
+ return allPosts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<BaseEnglishLayout>
+  <div class="min-h-screen">
+    <div class="fixed inset-0 -z-10">
+      <SpaceBoyScene client:only />
+    </div>
+
+    <main class="min-h-screen mb-12">
+      <div class="flex lg:gap-8 mt-24 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-1 gap-4 justify-center min-w-0">
+          <PostContent post={post} locale="en" client:only>
+            <Content />
+          </PostContent>
+        </div>
+      </div>
+    </main>
+  </div>
+</BaseEnglishLayout>
