@@ -17,6 +17,12 @@ export default defineConfig({
     locales: ['en', 'ar'],
   },
 
+  markdown: {
+    shikiConfig: {
+      theme: 'vitesse-black',
+    },
+  },
+
   vite: {
     // @ts-ignore
     plugins: [tailwindcss()],
