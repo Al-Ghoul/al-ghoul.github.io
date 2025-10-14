@@ -6,6 +6,8 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 import mdx from '@astrojs/mdx';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,6 +23,20 @@ export default defineConfig({
     shikiConfig: {
       theme: 'vitesse-black',
     },
+
+    rehypePlugins: [
+      rehypeSlug,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: 'wrap',
+          properties: {
+            className: ['anchor'],
+            style: { 'text-decoration': 'none' }
+          },
+        },
+      ]
+    ]
   },
 
   vite: {

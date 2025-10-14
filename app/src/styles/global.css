@@ -54,3 +54,12 @@ pre code .line::before {
     @apply bg-yellow-100 dark:bg-gray-800 text-yellow-900 dark:text-yellow-100 px-1 rounded transition-all duration-200 hover:bg-yellow-200 dark:hover:bg-yellow-700;
   }
 }
+
+.mdx-content h1[id],
+.mdx-content h2[id],
+.mdx-content h3[id],
+.mdx-content h4[id],
+.mdx-content h5[id],
+.mdx-content h6[id] {
+  scroll-margin-top: 90px;
+}
