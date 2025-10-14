@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin '@tailwindcss/typography';
 
 :root {
   --background: #ffffff;
@@ -23,4 +24,33 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+pre code {
+  display: block;
+  counter-reset: line;
+  direction: ltr;
+}
+
+pre code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 3em;
+  text-align: right;
+  color: #6b7280;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+@layer components {
+  .prose code:not(pre code) {
+    @apply bg-yellow-100 dark:bg-gray-800 text-yellow-900 dark:text-yellow-100 px-1 rounded transition-all duration-200 hover:bg-yellow-200 dark:hover:bg-yellow-700;
+  }
 }
