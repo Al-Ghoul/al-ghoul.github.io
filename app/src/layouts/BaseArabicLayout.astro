@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {Navbar} from "../components/ui/core/Navbar";
+import Footer from "../components/ui/core/Footer";
+  
+const navItems = [
+  {
+    name: "الرئيسية",
+    link: "/"
+  }
+];
+---
+
+<BaseLayout locale="ar" title="مدونة عبد الرحمن الغول">
+  <Navbar 
+    locale="ar" 
+    navItems={navItems}
+    logo="الغول"
+    githubText="المستودع" 
+    client:only
+  />
+
+  <slot /> 
+  
+  <Footer
+    slot="footer"
+    locale="ar"
+    authorName="عبد الرحمن الغول"
+    authorRole="مطور و كاتب تقني"
+    description="تم بناءه بواسطة Next.js ونشره على Github"
+  />
+</BaseLayout>

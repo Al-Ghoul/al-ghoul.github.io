@@ -1,0 +1,33 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import {Navbar} from "@components/ui/core/Navbar";
+import Footer from "@components/ui/core/Footer";
+ 
+const navItems = [
+  {
+    name: "Home",
+    link: "/en"
+  }
+];
+---
+
+<BaseLayout locale="en" title="Abdulrahman AlGhoul's Blog">
+  <Navbar 
+    locale="en" 
+    navItems={navItems}
+    logo="AlGhoul"
+    githubText="Github Repository" 
+    languageSelectorProps={{ locale: "en", title: "Language", label: "Pick a language" }}
+    client:visible
+  />
+  
+  <slot />
+  
+  <Footer
+    slot="footer"
+    locale="en"
+    authorName="Abdulrahman AlGhoul"
+    authorRole="Software Developer & Tech Writer"
+    description="Built with Next.js and deployed on Github"
+  />
+</BaseLayout>

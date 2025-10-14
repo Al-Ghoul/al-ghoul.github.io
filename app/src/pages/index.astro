@@ -1,7 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import {Navbar} from "../components/ui/core/Navbar";
-import Footer from "../components/ui/core/Footer";
+import BaseArabicLayout from "@layouts/BaseArabicLayout.astro";
 import SwarmScene from "../components/ui/core/scenes/SwarmScene";
 import { getCollection } from "astro:content";
 import {PostCard} from "../components/ui/posts/PostCard";
@@ -10,13 +8,6 @@ import { Sidebar } from "@components/ui/posts/Sidebar";
 import { HeroParallax } from "@components/ui/hero-parallax";
 import { PRODUCTS } from "@lib/data";
 import MobileAppShowcase from "@components/ui/core/scenes/MobileAppShowcase";
-  
-const navItems = [
-  {
-    name: "الرئيسية",
-    link: "/"
-  }
-];
 
 const postsWithExcerpts = await Promise.all(
   (await getCollection("posts"))
@@ -37,18 +28,10 @@ const categories = await getCategoryCounts();
 const tags = await getTagCounts();
 ---
 
-<BaseLayout locale="ar" title="مدونة عبد الرحمن الغول">
-  <Navbar 
-    locale="ar" 
-    navItems={navItems}
-    logo="الغول"
-    githubText="المستودع" 
-    client:only
-  />
-  
+<BaseArabicLayout>
   <main class="min-h-screen">
     <div class="fixed inset-0 -z-10">
-      <SwarmScene  client:only/>
+      <SwarmScene client:only/>
     </div>
 
     <section class="flex flex-col md:flex-row container justify-center p-4 md:p-8 mx-auto mt-30 md:mt-20 gap-8">
@@ -72,12 +55,4 @@ const tags = await getTagCounts();
       <MobileAppShowcase client:only/>
     </section>
   </main>
-
-  <Footer
-    slot="footer"
-    locale="ar"
-    authorName="عبد الرحمن الغول"
-    authorRole="مطور و كاتب تقني"
-    description="تم بناءه بواسطة Next.js ونشره على Github"
-  />
-</BaseLayout>
+</BaseArabicLayout>

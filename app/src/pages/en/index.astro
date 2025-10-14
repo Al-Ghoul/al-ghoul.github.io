@@ -1,7 +1,5 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import {Navbar} from "../../components/ui/core/Navbar";
-import Footer from "../../components/ui/core/Footer";
+import BaseEnglishLayout from "@layouts/BaseEnglishLayout.astro";
 import SwarmScene from "../../components/ui/core/scenes/SwarmScene";
 import { getCollection } from "astro:content";
 import {PostCard} from "../../components/ui/posts/PostCard";
@@ -30,16 +28,7 @@ const categories = await getCategoryCounts();
 const tags = await getTagCounts();
 ---
 
-<BaseLayout locale="en" title="Abdulrahman AlGhoul's Blog">
-  <Navbar 
-    locale="en" 
-    navItems={navItems}
-    logo="AlGhoul"
-    githubText="Github Repository" 
-    languageSelectorProps={{ locale: "en", title: "Language", label: "Pick a language" }}
-    client:visible
-  />
-  
+<BaseEnglishLayout>
   <main class="min-h-screen">
     <div class="fixed inset-0 -z-10">
       <SwarmScene  client:only/>
@@ -65,12 +54,4 @@ const tags = await getTagCounts();
       <MobileAppShowcase locale="en" client:only/>
     </section>
    </main>
-
-  <Footer
-    slot="footer"
-    locale="en"
-    authorName="Abdulrahman AlGhoul"
-    authorRole="Software Developer & Tech Writer"
-    description="Built with Next.js and deployed on Github"
-  />
-</BaseLayout>
+</BaseEnglishLayout>
