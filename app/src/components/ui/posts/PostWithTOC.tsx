@@ -7,9 +7,18 @@ interface Props {
   headings: MarkdownHeading[],
   locale?: string,
   children?: React.ReactNode
+  prevPost: CollectionEntry<"posts"> | null;
+  nextPost: CollectionEntry<"posts"> | null;
 }
 
-export default function PostWithTOC({ post, headings, locale = "ar", children }: Props) {
+export default function PostWithTOC({ 
+  post,
+  headings,
+  locale = "ar",
+  children,
+  prevPost,
+  nextPost
+}: Props) {
   return (
     <>
       <aside className="hidden xl:block sticky top-24 shrink-0 w-64 self-start">
@@ -20,7 +29,7 @@ export default function PostWithTOC({ post, headings, locale = "ar", children }:
         />
       </aside>
 
-      <PostContent post={post} locale={locale}>
+      <PostContent post={post} locale={locale} prevPost={prevPost} nextPost={nextPost}>
         {children}
       </PostContent>
     </>

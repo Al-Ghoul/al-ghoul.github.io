@@ -11,13 +11,17 @@ interface PostContentProps {
   className?: string;
   locale: string;
   children?: React.ReactNode;
+  prevPost: CollectionEntry<"posts"> | null;
+  nextPost: CollectionEntry<"posts"> | null;
 }
 
-export default function PostContent({
+export default async function PostContent({
   post,
   className,
   locale = "ar",
   children,
+  prevPost,
+  nextPost
 }: PostContentProps) {
   const TEXT_DIRECTION = post.data.lang === "ar" ? "rtl" : "ltr";
 
@@ -79,6 +83,10 @@ export default function PostContent({
         {children}
       </div>
 
+      <div className="mt-12">
+        {prevPost && <a className="float-left" href={prevPost.id}>← {prevPost.data.title}</a>}
+        {nextPost && <a className="float-right" href={nextPost.id}>{nextPost.data.title} →</a>}
+      </div>
     </motion.article>
   )
 }
