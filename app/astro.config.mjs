@@ -8,11 +8,14 @@ import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import { remarkRelatedTitles } from './src/plugins/remark-related-titles.mjs';
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://al-ghoul.github.io",
-  integrations: [react(), mdx()],
+  integrations: [react(), mdx({
+    remarkPlugins: [remarkRelatedTitles],
+  })],
 
   i18n: {
     defaultLocale: 'ar',
