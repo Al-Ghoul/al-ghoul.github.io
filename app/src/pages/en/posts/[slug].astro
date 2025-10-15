@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content, headings } = await render(post);
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const { prevPost, nextPost } = await getPrevNextForPost(post.id);
 ---
 <BaseEnglishLayout>
@@ -32,7 +32,7 @@ const { prevPost, nextPost } = await getPrevNextForPost(post.id);
         <div class="flex flex-1 gap-4 justify-center min-w-0">
           <PostWithTOC 
             locale="en"
-            post={post}
+            post={{...post, frontmatter: remarkPluginFrontmatter}}
             headings={headings}
             prevPost={prevPost}
             nextPost={nextPost}

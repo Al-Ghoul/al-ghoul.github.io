@@ -1,9 +1,10 @@
 import type { CollectionEntry } from "astro:content";
 import PostContent from "./PostContent";
 import TableOfContents, { type MarkdownHeading } from "./TableOfContents";
+import RelatedPostsSidebar from "./RelatedPostsSidebar";
 
 interface Props {
-  post: CollectionEntry<"posts">;
+  post: CollectionEntry<"posts"> & { frontmatter: Record<string, any> };
   headings: MarkdownHeading[],
   locale?: string,
   children?: React.ReactNode
@@ -11,13 +12,13 @@ interface Props {
   nextPost: CollectionEntry<"posts"> | null;
 }
 
-export default function PostWithTOC({ 
+export default function PostWithTOC({
   post,
   headings,
   locale = "ar",
   children,
   prevPost,
-  nextPost
+  nextPost,
 }: Props) {
   return (
     <>
@@ -27,6 +28,7 @@ export default function PostWithTOC({
           lang={post.data.lang}
           className="p-2 bg-white/10 dark:bg-black/10 rounded-md border border-amber-600"
         />
+        <RelatedPostsSidebar locale={locale} className="mt-4" posts={post.frontmatter.relatedPosts} />
       </aside>
 
       <PostContent post={post} locale={locale} prevPost={prevPost} nextPost={nextPost}>
