@@ -1,4 +1,3 @@
-import React from "react";
 import { PROJECTS } from "@lib/data";
 
 export default function Sidebar({
