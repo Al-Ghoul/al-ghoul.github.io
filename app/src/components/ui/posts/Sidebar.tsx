@@ -21,7 +21,7 @@ export function Sidebar({
             {categories.map(({ id, count }) => (
               <li key={id} className="flex justify-between">
                 <a
-                  href={`/categories/${id}/page/1`}
+                  href={`${locale == "en" ? "/en" : ""}/categories/${id}/1`}
                   className="hover:underline text-neutral-700 dark:text-neutral-200"
                 >
                   {id}
@@ -42,7 +42,7 @@ export function Sidebar({
             {tags.map(({ id, count }) => (
               <li key={id}>
                 <a
-                  href={`/tags/${id}/page/1`}
+                  href={`${locale == "en" ? "/en" : ""}/tags/${id}/1`}
                   className="px-2 py-1 rounded-md text-sm hover:bg-gray-700/50 dark:hover:bg-gray-200/20 text-neutral-800 dark:text-neutral-200 transition"
                 >
                   {id}{" "}
