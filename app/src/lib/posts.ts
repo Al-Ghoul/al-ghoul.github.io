@@ -76,3 +76,28 @@ export async function getPrevNextForPost(slug: string, locale = "ar") {
 
   return { prevPost, nextPost };
 }
+
+export type SearchablePost = {
+  url: string;
+  title: string;
+  description: string;
+  content: string | undefined;
+  lang: string;
+  tags: string[];
+};
+
+
+export async function getSearchablePosts(): Promise<SearchablePost[]> {
+  const posts = await getCollection('posts');
+
+  return posts
+    .filter(post => !post.data.draft)
+    .map(post => ({
+      url: `${post.data.lang == "en" ? "/en" : ""}/posts/${post.id}`, // adjust if needed
+      title: post.data.title,
+      description: post.data.description,
+      content: post.body,
+      lang: post.data.lang,
+      tags: post.data.tags.map(t => t.id), // if using references
+    }));
+}

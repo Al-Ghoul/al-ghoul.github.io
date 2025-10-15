@@ -13,13 +13,16 @@ import { useState } from "react";
 import { IconBrandGithub } from "@tabler/icons-react";
 import type { LanguageSelectorProps } from "../LanguageSelector";
 import LanguageSelector from "@components/ui/LanguageSelector";
+import Search from "../posts/Search";
+import type { SearchablePost } from "@lib/posts";
 
 export function Navbar({
   locale,
   logo,
   navItems,
   githubText,
-  languageSelectorProps
+  languageSelectorProps,
+  searchablePosts
 }: {
   locale: string;
   logo: string;
@@ -29,19 +32,23 @@ export function Navbar({
   }[];
   githubText: string;
   languageSelectorProps?: LanguageSelectorProps;
+  searchablePosts: SearchablePost[];
 }
 ) {
   const TEXT_DIRECTION = locale === "ar" ? "rtl" : "ltr";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
 
   return (
-    <NavbarWrapper>
+    <NavbarWrapper isSearchOpen={isSearchOpen}>
       {/* Desktop Navigation */}
       <NavBody>
         <NavbarLogo title={logo} />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4 relative z-30">
+          <Search isOpen={isSearchOpen} setIsOpen={setIsSearchOpen} searchablePosts={searchablePosts} />
           <LanguageSelector {...languageSelectorProps} />
           <NavbarLinkButton url="https://github.com/Al-Ghoul/al-ghoul" dir={TEXT_DIRECTION}>
             <IconBrandGithub className="text-white dark:text-black" />
