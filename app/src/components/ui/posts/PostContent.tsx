@@ -15,7 +15,7 @@ interface PostContentProps {
   nextPost: CollectionEntry<"posts"> | null;
 }
 
-export default async function PostContent({
+export default function PostContent({
   post,
   className,
   locale = "ar",
