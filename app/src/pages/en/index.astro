@@ -24,8 +24,8 @@ const postsWithExcerpts = await Promise.all(
     })
 );
 
-const categories = await getCategoryCounts();
-const tags = await getTagCounts();
+const categories = await getCategoryCounts("en");
+const tags = await getTagCounts("en");
 ---
 
 <BaseEnglishLayout>

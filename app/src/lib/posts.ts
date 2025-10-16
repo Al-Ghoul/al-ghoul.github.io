@@ -2,8 +2,10 @@ import { getCollection } from "astro:content";
 import { remark } from "remark";
 import strip from "strip-markdown";
 
-export async function getTagCounts() {
-  const posts = await getCollection("posts");
+export async function getTagCounts(locale = "ar") {
+  const posts = await getCollection("posts")
+    .then(p => p.filter(p => !p.data.draft))
+    .then(p => p.filter(p => p.data.lang === locale));
   const map = new Map<string, number>();
 
   for (const post of posts) {
@@ -20,8 +22,10 @@ export async function getTagCounts() {
   }));
 }
 
-export async function getCategoryCounts() {
-  const posts = await getCollection("posts");
+export async function getCategoryCounts(locale = "ar") {
+  const posts = await getCollection("posts")
+    .then(p => p.filter(p => !p.data.draft))
+    .then(p => p.filter(p => p.data.lang === locale));
   const map = new Map<string, number>();
 
   for (const post of posts) {
