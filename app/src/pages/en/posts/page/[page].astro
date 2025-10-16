@@ -1,0 +1,95 @@
+---
+import BaseEnglishLayout from "@layouts/BaseEnglishLayout.astro";
+import SpaceBoyScene from "@components/ui/core/scenes/SpaceBoyScene";
+import Timeline from "@components/ui/timeline";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { cn } from "@lib/utils";
+import type { Page, GetStaticPaths } from "astro";
+
+export async function getStaticPaths({ paginate }: Parameters<GetStaticPaths>[0]) {
+  const posts = await getCollection("posts");
+
+  // Sort newest first
+  const sortedPosts = posts
+    .filter((p) => !p.data.draft)
+    .filter((p) => p.data.lang === "en")
+    .sort(
+      (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+    );
+
+  const postsPerPage = 1;
+
+  // Generate paginated paths for all posts (time-ordered)
+  return paginate(sortedPosts, {
+    pageSize: postsPerPage,
+  });
+}
+
+const page: Page<CollectionEntry<"posts">> = Astro.props.page;
+const currentPagePosts = page.data;
+const totalPages = page.lastPage;
+const pageNumber = page.currentPage;
+---
+
+<BaseEnglishLayout>
+  <div class="min-h-screen">
+    <div class="fixed inset-0 -z-10">
+      <SpaceBoyScene client:only />
+    </div>
+
+    <main class="min-h-screen">
+      <section class="container mx-auto px-4 py-20">
+        <h1 class="text-2xl md:text-4xl font-bold mb-8 capitalize">
+          Latest Posts
+        </h1>
+
+        <Timeline data={currentPagePosts} locale="en" client:only />
+
+        <nav
+          class="flex justify-center items-center gap-2 mt-12"
+          aria-label="Pagination"
+        >
+          {pageNumber > 1 && (
+            <a
+              href={`/en/posts/page/${pageNumber - 1}`}
+              class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
+            >
+              Prev
+            </a>
+          )}
+
+          <div class="flex gap-2">
+            {Array.from({ length: totalPages }, (_, i) => {
+              const num = i + 1;
+              const isActive = num === pageNumber;
+
+              return (
+                <a
+                  href={isActive ? undefined : `/en/posts/page/${num}`}
+                  class={cn(
+                    "px-3 py-1 rounded-md border",
+                    isActive
+                      ? "bg-yellow-800 text-white dark:text-black cursor-not-allowed"
+                      : "bg-white dark:bg-black hover:bg-muted"
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {num}
+                </a>
+              );
+            })}
+          </div>
+
+          {pageNumber < totalPages && (
+            <a
+              href={`/en/posts/page/${pageNumber + 1}`}
+              class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
+            >
+              Prev
+            </a>
+          )}
+        </nav>
+      </section>
+    </main>
+  </div>
+</BaseEnglishLayout>
