@@ -2,7 +2,11 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import logoUrl from "../../assets/logo.svg?url";
 
-export default function Preloader({ children, onComplete, minDisplayTime = 2000 }: {
+export default function Preloader({ 
+  children, 
+  onComplete, 
+  minDisplayTime = 2000 
+}: {
   children: React.ReactNode,
   onComplete?: () => void,
   minDisplayTime?: number
@@ -17,14 +21,12 @@ export default function Preloader({ children, onComplete, minDisplayTime = 2000 
     return () => clearTimeout(timer);
   }, [minDisplayTime]);
 
-    useEffect(() => {
+  useEffect(() => {
+    document.body.style.visibility = 'visible';
     if (isVisible) {
-      const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
-      
-      return () => {
-        document.body.style.overflow = originalStyle;
-      };
+    } else {
+      document.body.style.overflow = 'auto';
     }
   }, [isVisible]);
 
@@ -34,6 +36,7 @@ export default function Preloader({ children, onComplete, minDisplayTime = 2000 
     if (canHide) {
       const hideTimer = setTimeout(() => {
         setIsVisible(false);
+        document.body.style.overflow = 'auto';
         onComplete?.();
       }, 300);
       return () => clearTimeout(hideTimer);
@@ -45,17 +48,15 @@ export default function Preloader({ children, onComplete, minDisplayTime = 2000 
       <AnimatePresence mode="wait">
         {isVisible && (
           <motion.div
-            className="fixed inset-0 bg-white dark:bg-black flex flex-col justify-center items-center z-10"
+            className="fixed inset-0 bg-white dark:bg-black flex flex-col justify-center items-center z-50"
             initial={{ opacity: 1 }}
             animate={{ opacity: canHide ? 0 : 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <Logo onAnimationComplete={() => setLogoComplete(true)} logoUrl={logoUrl} duration={4} />
-
+            <Logo onAnimationComplete={() => setLogoComplete(true)} logoUrl={logoUrl} duration={3} />
             <motion.div
               className="mt-8 flex gap-x-1"
-
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -79,20 +80,24 @@ export default function Preloader({ children, onComplete, minDisplayTime = 2000 
           </motion.div>
         )}
       </AnimatePresence>
-
       {!isVisible && children}
     </>
   );
 }
 
-function Logo({ onAnimationComplete, strokeWidth = 0.1, className = "", duration = 2, logoUrl }:
-  {
-    onAnimationComplete?: () => void,
-    strokeWidth?: number,
-    className?: string,
-    duration?: number,
-    logoUrl: string
-  }) {
+function Logo({ 
+  onAnimationComplete, 
+  strokeWidth = 0.1, 
+  className = "", 
+  duration = 2, 
+  logoUrl 
+}: {
+  onAnimationComplete?: () => void,
+  strokeWidth?: number,
+  className?: string,
+  duration?: number,
+  logoUrl: string
+}) {
   const [pathData, setPathData] = useState("");
 
   useEffect(() => {
