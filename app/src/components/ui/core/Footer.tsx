@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter, Mail, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail, ExternalLink, RssIcon } from "lucide-react";
 import { cn } from "../../../lib/utils";
 
 interface FooterProps {
@@ -83,6 +83,25 @@ export default function Footer({
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} <span className="font-bold">{authorName}</span>. {description}.
           </p>
+          <div className="flex mt-4 justify-center gap-4">
+            <a
+              href={locale == "ar" ? "feed.xml" : "en/feed.xml"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              RSS
+              <RssIcon className="h-3 w-3" />
+            </a>
+            <a
+              href="/sitemap-index.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Sitemap
+            </a>
+          </div>
         </div>
       </div>
     </footer>
