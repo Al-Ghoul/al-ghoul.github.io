@@ -9,7 +9,6 @@ import type { Page, GetStaticPaths } from "astro";
 export async function getStaticPaths({ paginate }: Parameters<GetStaticPaths>[0]) {
   const posts = await getCollection("posts");
 
-  // Sort newest first
   const sortedPosts = posts
     .filter((p) => !p.data.draft)
     .filter((p) => p.data.lang === "ar")
@@ -17,9 +16,8 @@ export async function getStaticPaths({ paginate }: Parameters<GetStaticPaths>[0]
       (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
     );
 
-  const postsPerPage = 1;
+  const postsPerPage = 10;
 
-  // Generate paginated paths for all posts (time-ordered)
   return paginate(sortedPosts, {
     pageSize: postsPerPage,
   });
@@ -30,9 +28,48 @@ const currentPagePosts = page.data;
 const totalPages = page.lastPage;
 const pageNumber = page.currentPage;
 ---
+<BaseArabicLayout subTitle="أحدث المقالات">
+  <meta property="og:title" content="أحدث المقالات | مدونة عبد الرحمن الغول" />
+  <meta name="twitter:title" content="أحدث المقالات | مدونة عبد الرحمن الغول" />
+  <meta name="application-name" content="مدونة عبد الرحمن الغول" />
 
-<BaseArabicLayout>
-  <div class="min-h-screen">
+  <meta name="author" content="عبد الرحمن الغول" />
+  <meta name="publisher" content="عبد الرحمن الغول" />
+  <meta name="creator" content="عبد الرحمن الغول" />
+
+  <meta property="og:site_name" content="مدونة عبد الرحمن الغول" />
+
+  <meta name="description" content={`أحدث المقالات في المدونة - الصفحة ${page.currentPage}`} />
+  <meta property="og:description"  content={`أحدث المقالات في المدونة - الصفحة ${page.currentPage}`} />
+  <meta name="twitter:description" content={`أحدث المقالات في المدونة - الصفحة ${page.currentPage}`} />
+
+  <link rel="canonical" href={`https://al-ghoul.github.io/posts/page/${pageNumber}`} />
+  <meta property="og:url" content={`https://al-ghoul.github.io/posts/page/${pageNumber}`} />
+
+  <link rel="alternate" hreflang="ar" href={`https://al-ghoul.github.io/posts/page/${pageNumber}`} />
+  <link rel="alternate" hreflang="en" href={`https://al-ghoul.github.io/en/posts/page/${pageNumber}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://al-ghoul.github.io/posts/page/${pageNumber}`} />
+
+  {pageNumber > 1 && <link rel="prev" href={`https://al-ghoul.github.io/posts/page/${pageNumber - 1}`} />}
+  {pageNumber < totalPages && <link rel="next" href={`https://al-ghoul.github.io/posts/page/${pageNumber + 1}`} />}
+
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <meta property="og:image" content="https://al-ghoul.github.io/ar-og-image.png" />
+  <meta property="og:image:width" content="1850" />
+  <meta property="og:image:height" content="461" />
+  <meta property="og:image:type" content="image/png" />
+
+  <meta name="twitter:image" content="https://al-ghoul.github.io/ar-og-image.png" />
+  
+  <meta property="og:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
+  <meta name="twitter:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
+
+  <div class="min-h-screen" slot="body">
     <div class="fixed inset-0 -z-10">
       <SpaceBoyScene client:only />
     </div>
@@ -81,7 +118,7 @@ const pageNumber = page.currentPage;
           </div>
 
           {pageNumber < totalPages && (
-            <a
+          <a
               href={`/posts/page/${pageNumber + 1}`}
               class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
             >

@@ -15,10 +15,13 @@ export async function getStaticPaths({ paginate }: Parameters<GetStaticPaths>[0]
   return categories.flatMap((category) => {
     const categoryPosts = posts.filter((p) => p.data.category.id === category)
     .filter((p) => !p.data.draft)
-    .filter((p) => p.data.lang === "ar");
+    .filter((p) => p.data.lang === "ar")
+    .sort(
+      (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+    );
 
     return paginate(categoryPosts, {
-      params: { category }, // This ensures Astro.params.category is set
+      params: { category }, 
       pageSize: postsPerPage,
     });
   });
@@ -30,7 +33,46 @@ const currentPagePosts = page.data;
 const totalPages = page.lastPage;
 const pageNumber = page.currentPage
 ---
-<BaseArabicLayout>
+<BaseArabicLayout subTitle={`مقالات في “${category}”`}>
+  <meta property="og:title" content={`مقالات في “${category}”| مدونة عبد الرحمن الغول`} />
+  <meta name="twitter:title" content={`مقالات في “${category}”| مدونة عبد الرحمن الغول`} />
+  <meta name="application-name" content="مدونة عبد الرحمن الغول" />
+  <meta name="author" content="عبد الرحمن الغول" />
+  <meta name="publisher" content="عبد الرحمن الغول" />
+  <meta name="creator" content="عبد الرحمن الغول" />
+
+  <meta property="og:site_name" content="مدونة عبد الرحمن الغول" />
+
+  <meta name="description" content={`أحدث المقالات في “${category}” - الصفحة ${page.currentPage}`} />
+  <meta property="og:description" content={`أحدث المقالات في “${category}” - الصفحة ${page.currentPage}`} />
+  <meta name="twitter:description" content={`أحدث المقالات في “${category}” - الصفحة ${page.currentPage}`} />
+
+  <link rel="canonical" href={`https://al-ghoul.github.io/categories/${category}/${pageNumber}`} />
+  <meta property="og:url" content={`https://al-ghoul.github.io/categories/${category}/${pageNumber}`} />
+
+  <link rel="alternate" hreflang="ar" href={`https://al-ghoul.github.io/categories/${category}/${pageNumber}`} />
+  <link rel="alternate" hreflang="en" href={`https://al-ghoul.github.io/en/categories/${category}/${pageNumber}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://al-ghoul.github.io/categories/${category}/${pageNumber}`} />
+
+  {pageNumber > 1 && <link rel="prev" href={`https://al-ghoul.github.io/categories/${category}/${pageNumber - 1}`} />}
+  {pageNumber < totalPages && <link rel="next" href={`https://al-ghoul.github.io/categories/${category}/${pageNumber + 1}`} />}
+
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <meta property="og:image" content="https://al-ghoul.github.io/ar-og-image.png" />
+  <meta property="og:image:width" content="1850" />
+  <meta property="og:image:height" content="461" />
+  <meta property="og:image:type" content="image/png" />
+
+  <meta name="twitter:image" content="https://al-ghoul.github.io/ar-og-image.png" />
+  
+  <meta property="og:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
+  <meta name="twitter:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
+  
   <div class="min-h-screen">
     <div class="fixed inset-0 -z-10">
       <SpaceBoyScene client:only />

@@ -27,9 +27,46 @@ const postsWithExcerpts = await Promise.all(
 const categories = await getCategoryCounts();
 const tags = await getTagCounts();
 ---
-
 <BaseArabicLayout>
-  <main class="min-h-screen">
+  <meta property="og:title" content="مدونة عبد الرحمن الغول" />
+  <meta name="twitter:title" content="مدونة عبد الرحمن الغول" />
+  <meta name="application-name" content="مدونة عبد الرحمن الغول" />
+
+  <meta name="author" content="عبد الرحمن الغول" />
+  <meta name="publisher" content="عبد الرحمن الغول" />
+  <meta name="creator" content="عبد الرحمن الغول" />
+
+  <meta property="og:site_name" content="مدونة عبد الرحمن الغول" />
+
+  <meta name="description" content="مدونة للمطورين تهدف إلى أن تكون إبداعية، ملهمة و تعليمية، بالإضافة إلى إدراج مشاريعي." />
+  <meta property="og:description" content="مدونة للمطورين تهدف إلى أن تكون إبداعية، ملهمة و تعليمية، بالإضافة إلى إدراج مشاريعي." />
+  <meta name="twitter:description" content="مدونة للمطورين تهدف إلى أن تكون إبداعية، ملهمة و تعليمية، بالإضافة إلى إدراج مشاريعي." />
+
+  <link rel="canonical" href="https://al-ghoul.github.io" />
+  <meta property="og:url" content="https://al-ghoul.github.io" />
+
+  <link rel="alternate" hreflang="ar" href="https://al-ghoul.github.io" />
+  <link rel="alternate" hreflang="en" href="https://al-ghoul.github.io/en" />
+  <!-- fallback entry point for all users whose preferred language doesn’t match ar or en. -->
+  <link rel="alternate" hreflang="x-default" href="https://al-ghoul.github.io/en" />
+
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <meta property="og:image" content="https://al-ghoul.github.io/ar-og-image.png" />
+  <meta property="og:image:width" content="1850" />
+  <meta property="og:image:height" content="461" />
+  <meta property="og:image:type" content="image/png" />
+
+  <meta name="twitter:image" content="https://al-ghoul.github.io/ar-og-image.png" />
+
+  <meta property="og:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
+  <meta name="twitter:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
+
+  <main class="min-h-screen" slot="body">
     <div class="fixed inset-0 -z-10">
       <SwarmScene client:only/>
     </div>
@@ -39,14 +76,14 @@ const tags = await getTagCounts();
         <h1 class="text-3xl font-bold mb-6" dir="rtl">المقالات الأخيرة</h1>
         <div class="flex flex-col gap-4">
           {postsWithExcerpts.map((post) => (
-            <PostCard post={post} locale="ar" READ_MORE_TEXT="قراءة المزيد ←" client:only />
+          <PostCard post={post} locale="ar" READ_MORE_TEXT="قراءة المزيد ←" client:only />
           ))}
         </div>
       </div>
 
       <Sidebar categories={categories} tags={tags} client:only/>
     </section>
-    
+
     <section>
       <HeroParallax products={PRODUCTS} client:only/>
     </section>

@@ -27,8 +27,45 @@ const postsWithExcerpts = await Promise.all(
 const categories = await getCategoryCounts("en");
 const tags = await getTagCounts("en");
 ---
-
 <BaseEnglishLayout>
+  <meta property="og:title" content="Abdulrahman AlGhoul's Blog" />
+  <meta name="twitter:title" content="Abdulrahman AlGhoul's Blog" />
+  <meta name="application-name" content="Abdulrahman AlGhoul's Blog" />
+
+  <meta name="author" content="Abdulrahman AlGhoul" />
+  <meta name="publisher" content="Abdulrahman AlGhoul" />
+  <meta name="creator" content="Abdulrahman AlGhoul" />
+
+  <meta property="og:site_name" content="Abdulrahman AlGhoul's Blog" />
+
+  <meta name="description" content="A developer's blog that's meant to be creative, inspirational, educational, and to list my portfolio projects." />
+  <meta property="og:description" content="A developer's blog that's meant to be creative, inspirational, educational, and to list my portfolio projects." />
+  <meta name="twitter:description" content="A developer's blog that's meant to be creative, inspirational, educational, and to list my portfolio projects." />
+
+  <link rel="canonical" href="https://al-ghoul.github.io/en" />
+  <meta property="og:url" content="https://al-ghoul.github.io/en" />
+
+  <link rel="alternate" hreflang="ar" href="https://al-ghoul.github.io" />
+  <link rel="alternate" hreflang="en" href="https://al-ghoul.github.io/en" />
+  <!-- fallback entry point for all users whose preferred language doesn’t match ar or en. -->
+  <link rel="alternate" hreflang="x-default" href="https://al-ghoul.github.io/en" />
+
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="ar_AR" />
+
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <meta property="og:image" content="https://al-ghoul.github.io/en-og-image.png" />
+  <meta property="og:image:width" content="1851" />
+  <meta property="og:image:height" content="380" />
+  <meta property="og:image:type" content="image/png" />
+
+  <meta name="twitter:image" content="https://al-ghoul.github.io/en-og-image.png" />
+
+  <meta property="og:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
+  <meta name="twitter:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
+
   <main class="min-h-screen">
     <div class="fixed inset-0 -z-10">
       <SwarmScene  client:only/>

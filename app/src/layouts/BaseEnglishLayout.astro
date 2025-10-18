@@ -17,10 +17,18 @@ const navItems = [
 ];
 
 const posts = await getSearchablePosts();
----
 
-<BaseLayout locale="en" title="Abdulrahman AlGhoul's Blog">
+interface Props {
+  subTitle?: string;
+}
+
+const { subTitle } = Astro.props;
+---
+<BaseLayout locale="en" title={subTitle ? `${subTitle} | Abdulrahman AlGhoul's Blog` : "Abdulrahman AlGhoul's Blog"}>
+  <slot />
+  
   <Navbar 
+    slot="header"
     locale="en" 
     navItems={navItems}
     logo="AlGhoul"
@@ -30,7 +38,7 @@ const posts = await getSearchablePosts();
     client:only
   />
   
-  <slot />
+  <slot name="body" />
   
   <Footer
     slot="footer"

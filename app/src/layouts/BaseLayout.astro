@@ -15,14 +15,20 @@ const { locale, title } = Astro.props;
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta name="twitter:creator" content="@abdo_alghoul" />
+    <meta name="twitter:site" content="@abdo_alghoul" />
+    <meta name="twitter:site:id" content="960225296258564096" />
+    <meta name="twitter:creator:id" content="960225296258564096" />
+    <meta name="pinterest-rich-pin" content="true" />
+    <slot />
 		<title>{title}</title>
 	</head>
   <body>
     <Preloader client:only>
-      <slot />
+      <slot name="header"/>
       <slot name="footer" />
     </Preloader>
     <FluidCanvas client:only/>

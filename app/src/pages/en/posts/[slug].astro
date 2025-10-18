@@ -1,6 +1,6 @@
 ---
 import BaseEnglishLayout from "@layouts/BaseEnglishLayout.astro";
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import SpaceBoyScene from "@components/ui/core/scenes/SpaceBoyScene";
 import PostWithTOC from "@components/ui/posts/PostWithTOC";
 import { getPrevNextForPost } from "@lib/posts";
@@ -20,9 +20,53 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const { prevPost, nextPost } = await getPrevNextForPost(post.id);
+const author = await getEntry("authors", post.data.author.id);
+const category = await getEntry("categories", post.data.category.id);
+const tags = await Promise.all(
+  post.data.tags.map((tag) => getEntry("tags", tag.id))
+);
 ---
-<BaseEnglishLayout>
-  <div class="min-h-screen">
+<BaseEnglishLayout subTitle={post.data.title}>
+  <meta property="og:title" content=`${post.data.title} | Abdulrahman AlGhoul's Blog` />
+  <meta name="twitter:title" content=`${post.data.title} | Abdulrahman AlGhoul's Blog` />
+  <meta name="application-name" content="Abdulrahman AlGhoul's Blog" />
+
+  <meta name="author" content="Abdulrahman AlGhoul" />
+  <meta name="publisher" content="Abdulrahman AlGhoul" />
+  <meta name="creator" content="Abdulrahman AlGhoul" />
+
+  <meta property="og:site_name" content="Abdulrahman AlGhoul's Blog" />
+
+  <meta name="description" content={post.data.description.length > 0 ? post.data.description : remarkPluginFrontmatter.excerpt} />
+  <meta property="og:description" content={post.data.description.length > 0 ? post.data.description : remarkPluginFrontmatter.excerpt} />
+  <meta name="twitter:description" content={post.data.description.length > 0 ? post.data.description : remarkPluginFrontmatter.excerpt} />
+
+  <link rel="canonical" href={`https://al-ghoul.github.io/en/posts/${post.id}`} />
+  <meta property="og:url" content={`https://al-ghoul.github.io/en/posts/${post.id}`} />
+  
+  <link rel="alternate" hreflang="en" href={`https://al-ghoul.github.io/en/posts/${post.id}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://al-ghoul.github.io/en/posts/${post.id}`} />
+
+  <meta property="og:locale" content="en_US" />
+
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary" />
+
+  <meta property="article:published_time" content={post.data.publishedAt.toISOString()} />
+  {post.data.updatedAt ? <meta property="article:modified_time" content={post.data.updatedAt.toISOString()} /> : null}
+  <meta property="article:author" content={author?.data.name ?? "AlGhoul"} />
+  <meta property="article:section" content={category?.data.name ?? "posts"} />
+  {tags.length > 0 ? tags.map((tag) => <meta property="article:tag" content={tag?.data.name ?? "الغول"} />) : null}
+
+  {post.data.coverImage.length > 0 ? 
+    <meta property="og:image" content={`https://al-ghoul.github.io/${post.data.coverImage}`} />
+    <meta name="twitter:image" content={`https://al-ghoul.github.io/${post.data.coverImage}`} />
+
+    <meta property="og:image:alt" content={`An image for the article titled ${post.data.title}`} />
+  <meta name="twitter:image:alt" content={`An image for the article titled ${post.data.title}`} />
+  : null}
+
+  <div class="min-h-screen" slot="body">
     <div class="fixed inset-0 -z-10">
       <SpaceBoyScene client:only />
     </div>
