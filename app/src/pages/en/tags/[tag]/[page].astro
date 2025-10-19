@@ -84,61 +84,57 @@ const pageNumber = page.currentPage
   <meta property="og:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
   <meta name="twitter:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
 
- 
-  <div class="min-h-screen">
-    <div class="fixed inset-0 -z-10">
-      <SpaceBoyScene client:only />
-    </div>
-
-    <main class="min-h-screen">
-      {/* Content */}
-      <section class="container mx-auto px-4 py-20">
-        <h1 class="text-2xl md:text-4xl font-bold mb-8 capitalize">
-          Posts in “{tag}”
-        </h1>
-
-        <Timeline locale="en" data={currentPagePosts} client:only />
-
-        <nav
-          class="flex justify-center items-center gap-2 mt-12"
-          aria-label="Pagination"
-        >
-          {pageNumber > 1 &&
-          <a href={`/tags/${tag}/${pageNumber - 1}`}
-            class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
-          >
-            Prev
-          </a>}
-
-          <div class="flex gap-2">
-            {Array.from({ length: totalPages }, (_, i) => {
-              const pageNumber = i + 1;
-              const isActive = pageNumber === page.currentPage;
-
-              return (
-                <a
-                  href={isActive ? undefined : `/tags/${tag}/${pageNumber}`}
-                  class={cn(
-                    "px-3 py-1 rounded-md border",
-                    isActive
-                      ? "bg-yellow-800 text-white dark:text-black cursor-not-allowed"
-                      : "bg-white dark:bg-black hover:bg-muted"
-                  )}
-                >
-                  {pageNumber}
-                </a>
-              );
-            })}
-          </div>
-
-          {pageNumber < totalPages &&
-            <a href={`/tags/${tag}/${pageNumber + 1}`}
-              class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
-            >
-              Next
-            </a>}
-        </nav>
-      </section>
-    </main>
+  <div class="fixed inset-0 -z-10">
+    <SpaceBoyScene client:only />
   </div>
+
+  <main class="min-h-screen" slot="body">
+    <section class="container mx-auto px-4 py-20">
+      <h1 class="text-2xl md:text-4xl font-bold mb-8 capitalize">
+        Posts in “{tag}”
+      </h1>
+
+      <Timeline locale="en" data={currentPagePosts} client:only />
+
+      <nav
+        class="flex justify-center items-center gap-2 mt-12"
+        aria-label="Pagination"
+      >
+        {pageNumber > 1 &&
+        <a href={`/tags/${tag}/${pageNumber - 1}`}
+          class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
+        >
+          Prev
+        </a>}
+
+        <div class="flex gap-2">
+          {Array.from({ length: totalPages }, (_, i) => {
+          const pageNumber = i + 1;
+          const isActive = pageNumber === page.currentPage;
+
+          return (
+          <a
+            href={isActive ? undefined : `/tags/${tag}/${pageNumber}`}
+            class={cn(
+              "px-3 py-1 rounded-md border",
+              isActive
+                ? "bg-yellow-800 text-white dark:text-black cursor-not-allowed"
+                : "bg-white dark:bg-black hover:bg-muted"
+            )}
+          >
+            {pageNumber}
+          </a>
+          );
+          })}
+        </div>
+
+        {pageNumber < totalPages &&
+        <a href={`/tags/${tag}/${pageNumber + 1}`}
+          class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
+        >
+          Next
+        </a>}
+      </nav>
+    </section>
+  </main>
 </BaseEnglishLayout>

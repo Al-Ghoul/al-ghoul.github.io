@@ -67,25 +67,23 @@ const tags = await Promise.all(
     <meta name="twitter:image:alt" content={`صورة لمقالة بعنوان ${post.data.title}`} />
   : null}
  
-  <div class="min-h-screen">
-    <div class="fixed inset-0 -z-10">
-      <SpaceBoyScene client:only />
-    </div>
-
-    <main class="min-h-screen mb-12">
-      <div class="flex lg:gap-8 mt-24 px-4 sm:px-6 lg:px-8">
-        <div class="block lg:flex flex-1 gap-4 justify-center min-w-0">
-          <PostWithTOC 
-            post={{...post, frontmatter: remarkPluginFrontmatter}}
-            headings={headings}
-            prevPost={prevPost}
-            nextPost={nextPost}
-            client:only
-          >
-            <Content />
-          </PostWithTOC>
-        </div>
-      </div>
-    </main>
+  <div class="fixed inset-0 -z-10">
+    <SpaceBoyScene client:load />
   </div>
+
+  <main class="min-h-screen mb-12" slot="body">
+    <div class="flex lg:gap-8 mt-24 px-4 sm:px-6 lg:px-8">
+      <div class="block lg:flex flex-1 gap-4 justify-center min-w-0">
+        <PostWithTOC 
+          post={{...post, frontmatter: remarkPluginFrontmatter}}
+          headings={headings}
+          prevPost={prevPost}
+          nextPost={nextPost}
+          client:only
+        >
+          <Content />
+        </PostWithTOC>
+      </div>
+    </div>
+  </main>
 </BaseArabicLayout>

@@ -66,10 +66,11 @@ const tags = await getTagCounts("en");
   <meta property="og:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
   <meta name="twitter:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
 
-  <main class="min-h-screen">
-    <div class="fixed inset-0 -z-10">
-      <SwarmScene  client:only/>
-    </div>
+  <div class="fixed inset-0 -z-10">
+    <SwarmScene  client:only/>
+  </div>
+
+  <main class="min-h-screen" slot="body">
     <section class="flex flex-col md:flex-row container justify-center p-4 md:p-8 mx-auto mt-30 md:mt-20 gap-8">
       <div>
         <h1 class="text-3xl font-bold mb-6">Recent Posts</h1>
@@ -79,16 +80,16 @@ const tags = await getTagCounts("en");
           ))}
         </div>
       </div>
-      
-      <Sidebar locale="en" categories={categories} tags={tags} client:only/>
+
+      <Sidebar locale="en" categories={categories} tags={tags} client:only />
     </section>
-    
+
     <section>
-      <HeroParallax products={PRODUCTS} client:only/>
+      <HeroParallax products={PRODUCTS} client:only />
     </section>
-    
+
     <section id="projects-section" class="relative w-full h-screen mt-20">
-      <MobileAppShowcase locale="en" client:only/>
+      <MobileAppShowcase locale="en" client:only />
     </section>
-   </main>
+  </main>
 </BaseEnglishLayout>

@@ -66,30 +66,30 @@ const tags = await getTagCounts();
   <meta property="og:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
   <meta name="twitter:image:alt" content="صورة عرض مسبق لمدونة عبد الرحمن الغول" />
 
-  <main class="min-h-screen" slot="body">
-    <div class="fixed inset-0 -z-10">
-      <SwarmScene client:only/>
-    </div>
+  <div class="fixed inset-0 -z-10">
+    <SwarmScene client:only/>
+  </div>
 
+  <main class="min-h-screen" slot="body">
     <section class="flex flex-col md:flex-row container justify-center p-4 md:p-8 mx-auto mt-30 md:mt-20 gap-8">
       <div>
         <h1 class="text-3xl font-bold mb-6" dir="rtl">المقالات الأخيرة</h1>
         <div class="flex flex-col gap-4">
           {postsWithExcerpts.map((post) => (
-          <PostCard post={post} locale="ar" READ_MORE_TEXT="قراءة المزيد ←" client:only />
+            <PostCard post={post} locale="ar" READ_MORE_TEXT="قراءة المزيد ←" client:load />
           ))}
         </div>
       </div>
 
-      <Sidebar categories={categories} tags={tags} client:only/>
+      <Sidebar categories={categories} tags={tags} client:load />
     </section>
 
     <section>
-      <HeroParallax products={PRODUCTS} client:only/>
+      <HeroParallax products={PRODUCTS} client:load />
     </section>
 
     <section id="projects-section" class="relative w-full h-screen mt-20">
-      <MobileAppShowcase client:only/>
+      <MobileAppShowcase client:load />
     </section>
   </main>
 </BaseArabicLayout>

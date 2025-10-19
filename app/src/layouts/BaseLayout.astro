@@ -1,7 +1,5 @@
 ---
-import FluidCanvas from "../components/ui/core/scenes/FluidCanvas";
-import Preloader from "../components/ui/preloader";
-import "../styles/global.css";
+import BaseHead from "./BaseHead.astro";
 
 interface Props {
   locale: string;
@@ -9,46 +7,10 @@ interface Props {
 }
 
 const { locale, title } = Astro.props;
-const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "/en";
 ---
-
 <html lang={locale}>
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="referrer" content="origin-when-cross-origin" />
-		<meta name="twitter:creator" content="@abdo_alghoul" />
-		<meta name="twitter:site" content="@abdo_alghoul" />
-		<meta name="twitter:site:id" content="960225296258564096" />
-		<meta name="twitter:creator:id" content="960225296258564096" />
-		<meta name="pinterest-rich-pin" content="true" />
-		<link rel="sitemap" href="/sitemap-index.xml" />
-		{locale == "ar" ? 
-			<link rel="alternate" type="application/rss+xml" title="مدونة عبد الرحمن الغول" href="//al-ghoul.github.io/feed.xml" />
-			:
-			<link rel="alternate" type="application/rss+xml" title="Abdulrahman AlGhoul's Blog" href="https://al-ghoul.github.io/en/feed.xml" />}
-		<slot />
-		<title>{title}</title>
-		{isHomePage && (
-			<style>
-				body { visibility: hidden; }
-			</style>
-		)}
-	</head>
-	<body>
-		{isHomePage ? (
-			<Preloader client:only>
-				<slot name="header" />
-				<slot name="footer" />
-			</Preloader>
-		) : (
-			<>
-				<slot name="header" />
-				<slot name="footer" />
-			</>
-		)}
-		<FluidCanvas client:only />
-	</body>
+  <BaseHead locale={locale} title={title}>
+    <slot />
+  </BaseHead>
+  <slot name="body" />
 </html>

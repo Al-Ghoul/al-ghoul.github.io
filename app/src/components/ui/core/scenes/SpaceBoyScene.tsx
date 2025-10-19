@@ -4,6 +4,8 @@ import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
+useGLTF.preload("/space_boy_scene.glb");
+
 function ResponsiveCamera() {
   const { camera, size } = useThree();
 

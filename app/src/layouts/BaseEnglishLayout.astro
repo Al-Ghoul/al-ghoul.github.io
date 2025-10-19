@@ -3,6 +3,8 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import {Navbar} from "@components/ui/core/Navbar";
 import Footer from "@components/ui/core/Footer";
 import { getSearchablePosts } from "@lib/posts";
+import Preloader from "@components/ui/preloader";
+import FluidCanvas from "@components/ui/core/scenes/FluidCanvas";
  
 const navItems = [
   {
@@ -27,24 +29,27 @@ const { subTitle } = Astro.props;
 <BaseLayout locale="en" title={subTitle ? `${subTitle} | Abdulrahman AlGhoul's Blog` : "Abdulrahman AlGhoul's Blog"}>
   <slot />
   
-  <Navbar 
-    slot="header"
-    locale="en" 
-    navItems={navItems}
-    logo="AlGhoul"
-    githubText="Github Repository" 
-    searchablePosts={posts}
-    languageSelectorProps={{ locale: "en", title: "Language", label: "Pick a language" }}
-    client:only
-  />
-  
-  <slot name="body" />
-  
-  <Footer
-    slot="footer"
-    locale="en"
-    authorName="Abdulrahman AlGhoul"
-    authorRole="Software Developer & Tech Writer"
-    description="Built with Next.js and deployed on Github"
-  />
+  <body slot="body">
+    <div id="initial-blocker" class="fixed inset-0 z-1 bg-white dark:bg-black"></div>
+    <Preloader client:load>
+      <Navbar 
+        locale="en" 
+        navItems={navItems}
+        logo="AlGhoul"
+        githubText="Github Repository" 
+        searchablePosts={posts}
+        languageSelectorProps={{ locale: "en", title: "Language", label: "Pick a language" }}
+        client:only
+      />
+
+      <slot name="body" />
+
+      <Footer
+        locale="en"
+        authorName="Abdulrahman AlGhoul"
+        authorRole="Software Developer & Tech Writer"
+        description="Built with Next.js and deployed on Github"
+      />
+      <FluidCanvas client:load />
+  </body>
 </BaseLayout>
