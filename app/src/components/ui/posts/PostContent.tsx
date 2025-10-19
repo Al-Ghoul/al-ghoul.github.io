@@ -77,7 +77,15 @@ export default function PostContent({
             </span>
           ) : null}
         </div>
+
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
+          {/* @ts-ignore */}
+          <span dir={TEXT_DIRECTION}>{i18nMinutes(post.frontmatter.minutes, locale)}</span> |
+          {/* @ts-ignore */}
+          <span>{post.frontmatter.words} {locale == "ar" ? "عدد الكلمات" : "words"}</span>
+        </div>
       </div>
+
 
       <div dir={post.data.lang === "ar" ? "rtl" : "ltr"} lang={post.data.lang}>
         {children}
@@ -89,4 +97,44 @@ export default function PostContent({
       </div>
     </motion.article>
   )
+}
+
+function i18nMinutes(count: number, locale: string = "en"): string {
+  const n = Math.floor(Number(count) || 0);
+  const formattedNumber = new Intl.NumberFormat(locale).format(n);
+
+  const pr = new Intl.PluralRules(locale);
+  const category = pr.select(n) as Intl.LDMLPluralRule;
+
+  type PluralCategory = Intl.LDMLPluralRule;
+  type LocaleMessages = Record<PluralCategory | "other", string>;
+
+  const messages: Record<string, LocaleMessages> & { _default: LocaleMessages } = {
+    // @ts-ignore
+    en: { one: "minute", other: "minutes" },
+    ar: {
+      zero: "دقيقة",
+      one: "دقيقة",
+      two: "دقيقتان",
+      few: "دقائق",
+      many: "دقيقة",
+      other: "دقيقة"
+    },
+    // @ts-ignore
+    _default: { one: "minute", other: "minutes" }
+  };
+
+  const localeMsgs =
+    messages[locale] || messages[locale.split("-")[0]] || messages._default;
+  const label = localeMsgs[category] ?? localeMsgs.other ?? localeMsgs.one;
+
+  // Arabic special handling: omit number for 0–2
+  if (locale.startsWith("ar")) {
+    if (n === 0) return "لا دقائق";     // “no minutes”
+    if (n === 1) return label;           // “دقيقة”
+    if (n === 2) return label;           // “دقيقتين”
+    return `${formattedNumber} ${label}`; // “٣ دقائق”
+  }
+
+  return `${formattedNumber} ${label}`;
 }

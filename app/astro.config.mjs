@@ -12,6 +12,7 @@ import { remarkRelatedTitles } from './src/plugins/remark-related-titles.mjs';
 
 import sitemap from '@astrojs/sitemap';
 import { remarkExcerpt } from './src/plugins/remark-excerpt.mjs';
+import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
 
 
 // https://astro.build/config
@@ -19,7 +20,7 @@ export default defineConfig({
   site: "https://al-ghoul.github.io",
   integrations: [
     react(), mdx({
-      remarkPlugins: [remarkRelatedTitles, remarkExcerpt],
+      remarkPlugins: [remarkRelatedTitles, remarkExcerpt, remarkReadingTime],
     }),
     sitemap({
       i18n: {
