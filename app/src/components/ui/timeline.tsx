@@ -26,9 +26,22 @@ export default function Timeline({ data, locale = "ar" }: { data: CollectionEntr
   const fillHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <div
+    <motion.div
       className="w-full bg-white:/50 dark:bg-black/50 font-sans md:px-10 border rounded-md"
       ref={containerRef}
+      initial={{
+        x: 100,
+        opacity: 0,
+      }}
+      animate={{
+        x: 0,
+        opacity: 1,
+      }}
+      exit={{ x: 50 }}
+      transition={{
+        duration: 1.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
     >
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10" dir={TEXT_DIRECTION}>
         <h2 className="text-lg md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
@@ -91,6 +104,6 @@ export default function Timeline({ data, locale = "ar" }: { data: CollectionEntr
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
