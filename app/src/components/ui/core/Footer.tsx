@@ -22,7 +22,7 @@ export default function Footer({
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           {/* Left side - Name/Brand */}
           <div className={cn("text-center md:text-left", { "md:text-right": TEXT_DIRECTION === "rtl" })}>
-            <h3 className="text-lg font-semibold text-foreground">{authorName}</h3>
+            <h3 className="text-lg font-semibold text-foreground font-lemon">{authorName}</h3>
             <p className="font-extralight">{authorRole}</p>
           </div>
 

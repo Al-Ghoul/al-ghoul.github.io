@@ -204,7 +204,7 @@ export const NavbarLogo = ({ title }: { title: string }) => {
       className="flex gap-x-2 text-sm font-normal"
     >
       <IconHome className="text-black dark:text-white" />
-      <span className="font-bold text-lg my-auto text-black dark:text-white">{title}</span>
+      <span className="font-bold text-lg my-auto text-black dark:text-white font-lemon">{title}</span>
     </a>
   );
 };

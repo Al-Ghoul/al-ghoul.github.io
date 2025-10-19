@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -11,6 +12,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-lemon: "LemonBrushArabic", "LemonBrushEnglish";
 }
 
 @media (prefers-color-scheme: dark) {
@@ -62,4 +64,20 @@ pre code .line::before {
 .mdx-content h5[id],
 .mdx-content h6[id] {
   scroll-margin-top: 90px;
+}
+
+@font-face {
+  font-family: "LemonBrushArabic";
+  src: url("/fonts/LemonBrushArabic.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LemonBrushEnglish";
+  src: url("/fonts/LemonBrushEnglish.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
