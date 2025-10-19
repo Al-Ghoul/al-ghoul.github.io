@@ -33,7 +33,6 @@ const tags = defineCollection({
     name: z.string(),
     description: z.string().optional(),
     color: z.string().optional(),     // e.g., “#ff9900”
-    slug: z.string().optional(),      // fallback if you want pretty URLs
   }),
 });
 
@@ -43,7 +42,6 @@ const categories = defineCollection({
     name: z.string(),
     description: z.string().optional(),
     icon: z.string().optional(),
-    slug: z.string().optional(),
   }),
 });
 
