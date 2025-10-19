@@ -8,6 +8,7 @@ import { Sidebar } from "@components/ui/posts/Sidebar";
 import { HeroParallax } from "@components/ui/hero-parallax";
 import { PRODUCTS } from "@lib/data";
 import MobileAppShowcase from "@components/ui/core/scenes/MobileAppShowcase";
+import AnimatedPostList from "@components/ui/posts/AnimatedPostList";
  
 const postsWithExcerpts = await Promise.all(
   (await getCollection("posts"))
@@ -75,9 +76,7 @@ const tags = await getTagCounts("en");
       <div>
         <h1 class="text-3xl font-bold mb-6">Recent Posts</h1>
         <div class="flex flex-col gap-4">
-          {postsWithExcerpts.map((post) => (
-            <PostCard post={post} locale="en" READ_MORE_TEXT="Read more →" client:only />
-          ))}
+          <AnimatedPostList locale="en" postsWithExcerpts={postsWithExcerpts} client:load />
         </div>
       </div>
 

@@ -4,10 +4,9 @@ import { ar } from "date-fns/locale";
 import type { CollectionEntry } from "astro:content";
 
 export function PostCard(props: { post: CollectionEntry<"posts"> & { excerpt: string }; } & {
-  locale: string;
-  READ_MORE_TEXT: string;
+  locale?: string;
 }) {
-  const { locale, post, READ_MORE_TEXT } = props;
+  const { locale = "ar", post } = props;
   const TEXT_DIRECTION = post.data.lang === "ar" ? "rtl" : "ltr";
 
   return (
@@ -75,11 +74,10 @@ export function PostCard(props: { post: CollectionEntry<"posts"> & { excerpt: st
               shadow-md hover:shadow-lg
             "
           >
-            {READ_MORE_TEXT}
+            {locale == "en" ? "Read more →" : "قراءة المزيد ←"}
           </a>
         </CardItem>
 
-        {/* Cover Image */}
         {post.data.coverImage ? (
           <CardItem translateZ="80" className="w-full mt-6">
             <div className="relative w-full h-56 overflow-hidden rounded-xl">
