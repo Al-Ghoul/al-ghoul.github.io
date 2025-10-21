@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { useProgress } from "@react-three/drei";
 import logoUrl from "../../assets/logo.svg?url";
-import FluidCanvas from "./core/scenes/FluidCanvas";
 
 export default function Preloader({
   children,
@@ -58,9 +57,6 @@ export default function Preloader({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <div className="absolute inset-0 z-0 pointer-events-none">
-              <FluidCanvas />
-            </div>
             <Logo
               logoUrl={logoUrl}
               duration={Math.max(progress / 40, 1)}
