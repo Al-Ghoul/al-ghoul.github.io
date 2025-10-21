@@ -8,13 +8,22 @@ import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeComponents from "rehype-components";
 import { remarkRelatedTitles } from './src/plugins/remark-related-titles.mjs';
 
-import sitemap from '@astrojs/sitemap';
+
 import { remarkExcerpt } from './src/plugins/remark-excerpt.mjs';
 import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
 import remarkSectionize from 'remark-sectionize';
+
 import remarkGfm from 'remark-gfm';
+import remarkDirective from "remark-directive";
+import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
+
+import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
+import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.mjs";
+
+import sitemap from '@astrojs/sitemap';
 
 import { transformerCopyButton } from '@selemondev/shiki-transformer-copy-button';
 import { transformerColorizedBrackets } from '@shikijs/colorized-brackets';
@@ -32,8 +41,48 @@ export default defineConfig({
   site: "https://al-ghoul.github.io",
   integrations: [
     react(), mdx({
-      remarkPlugins: [remarkRelatedTitles, remarkExcerpt, remarkReadingTime, remarkSectionize, remarkGfm],
-    }),
+      remarkPlugins: [
+        remarkRelatedTitles,
+        remarkExcerpt,
+        remarkReadingTime,
+        remarkSectionize,
+        remarkGfm,
+        remarkGithubAdmonitionsToDirectives,
+        remarkDirective,
+        parseDirectiveNode,
+      ],
+      rehypePlugins: [
+        rehypeSlug,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: 'wrap',
+            properties: {
+              className: ['anchor'],
+              style: { 'text-decoration': 'none' }
+            },
+          },
+        ],
+        [
+          rehypeComponents,
+          {
+            components: {
+              // @ts-ignore
+              note: (x, y) => AdmonitionComponent(x, y, "note"),
+              // @ts-ignore
+              tip: (x, y) => AdmonitionComponent(x, y, "tip"),
+              // @ts-ignore
+              info: (x, y) => AdmonitionComponent(x, y, "important"),
+              // @ts-ignore
+              danger: (x, y) => AdmonitionComponent(x, y, "caution"),
+              // @ts-ignore
+              warning: (x, y) => AdmonitionComponent(x, y, "warning"),
+            },
+          },
+        ],
+      ]
+    }
+    ),
     sitemap({
       i18n: {
         defaultLocale: 'ar',
@@ -71,19 +120,6 @@ export default defineConfig({
       ],
     },
 
-    rehypePlugins: [
-      rehypeSlug,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: 'wrap',
-          properties: {
-            className: ['anchor'],
-            style: { 'text-decoration': 'none' }
-          },
-        },
-      ]
-    ]
   },
 
   vite: {

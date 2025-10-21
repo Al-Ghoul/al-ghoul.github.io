@@ -28,7 +28,7 @@ export default function PostContent({
   return (
     <motion.article
       className={cn(
-        "prose prose-zinc prose-invert font-jetbrains [font-variant-ligatures:none] p-4 max-w-4xl py-8 bg-white/5 dark:bg-black/50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg border mdx-content",
+        "prose prose-zinc prose-invert font-jetbrains [font-variant-ligatures:none] p-4 max-w-4xl py-8 bg-white/5 dark:bg-black/50 backdrop-filter backdrop-blur-sm rounded-xl shadow-lg border mdx-content custom-md",
         className
       )}
       initial={{

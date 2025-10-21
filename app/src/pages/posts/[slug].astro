@@ -5,6 +5,7 @@ import SpaceBoyScene from "@components/ui/core/scenes/SpaceBoyScene";
 import PostWithTOC from "@components/ui/posts/PostWithTOC";
 import { getPrevNextForPost } from "@lib/posts";
 import { getEntry } from "astro:content";
+import "../../styles/markdown-extend.styl";
 
 export async function getStaticPaths() {
  const allPosts = (await getCollection("posts"))
