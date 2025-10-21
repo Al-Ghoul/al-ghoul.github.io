@@ -14,6 +14,7 @@ import sitemap from '@astrojs/sitemap';
 import { remarkExcerpt } from './src/plugins/remark-excerpt.mjs';
 import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
 import remarkSectionize from 'remark-sectionize';
+import remarkGfm from 'remark-gfm';
 
 import { transformerCopyButton } from '@selemondev/shiki-transformer-copy-button';
 import { transformerColorizedBrackets } from '@shikijs/colorized-brackets';
@@ -31,7 +32,7 @@ export default defineConfig({
   site: "https://al-ghoul.github.io",
   integrations: [
     react(), mdx({
-      remarkPlugins: [remarkRelatedTitles, remarkExcerpt, remarkReadingTime, remarkSectionize],
+      remarkPlugins: [remarkRelatedTitles, remarkExcerpt, remarkReadingTime, remarkSectionize, remarkGfm],
     }),
     sitemap({
       i18n: {
