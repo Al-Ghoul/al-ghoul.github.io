@@ -26,7 +26,7 @@ export default function PostWithTOC({
         <TableOfContents
           headings={headings}
           lang={post.data.lang}
-          className="p-2 bg-white/10 dark:bg-black/10 rounded-md border border-amber-600"
+          className="p-2 bg-white/90 dark:bg-black/90 rounded-md border border-amber-600"
         />
         <RelatedPostsSidebar locale={locale} className="mt-4" posts={post.frontmatter.relatedPosts} />
       </aside>
