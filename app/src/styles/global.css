@@ -34,16 +34,25 @@ pre code {
   direction: ltr;
 }
 
+
+pre code .line {
+  display: inline-block;
+  position: relative;
+  padding-left: 2.5rem;
+  background-clip: content-box;
+}
+
 pre code .line::before {
   counter-increment: line;
   content: counter(line);
   position: absolute;
   left: 0;
-  width: 3em;
+  top: 0;
+  width: 2rem;
   text-align: right;
   color: #6b7280;
-  user-select: none;
   opacity: 0.7;
+  user-select: none;
 }
 
 .prose code::before,
@@ -80,4 +89,129 @@ pre code .line::before {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+.line.highlighted,
+.highlighted-word {
+  background-color: rgba(120, 120, 120, 0.3);
+  display: inline-block;
+}
+
+pre.has-diff code {
+  display: block;
+  counter-reset: line;
+  direction: ltr;
+}
+
+pre.has-diff code .line {
+  display: inline-block;
+  position: relative;
+  padding-left: 2.5rem;
+  background-clip: content-box;
+}
+
+pre.has-diff code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  text-align: right;
+  color: #6b7280;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.line.diff {
+  background-clip: content-box;
+}
+
+.line.diff.add {
+  background-color: rgba(34, 197, 94, 0.12);
+}
+
+.line.diff.add::before {
+  color: #16a34a;
+  content: "+ " counter(line);
+}
+
+.line.diff.remove {
+  background-color: rgba(239, 68, 68, 0.12);
+}
+
+.line.diff.remove::before {
+  color: #dc2626;
+  content: "- " counter(line);
+}
+
+pre.has-focused code {
+  display: block;
+  counter-reset: line;
+  direction: ltr;
+}
+
+pre.has-focused code .line {
+  display: inline-block;
+  position: relative;
+  padding-left: 2.5rem;
+  background-clip: content-box;
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+pre.has-focused code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  text-align: right;
+  color: #6b7280;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.line.focused {
+  background-color: rgba(59, 130, 246, 0.12);
+  box-shadow: inset 2px 0 0 0 rgba(59, 130, 246, 0.8);
+  filter: none;
+  opacity: 1;
+  z-index: 1;
+  position: relative;
+}
+
+pre.has-focused code .line:not(.focused) {
+  filter: blur(2px);
+  opacity: 0.4;
+}
+
+pre.has-focused code {
+  transition: all 0.25s ease;
+}
+
+pre.has-highlighted code .line.highlighted {
+  background-color: rgba(120, 120, 120, 0.1);
+  box-shadow: inset 2px 0 0 0 rgba(120, 120, 120, 0.4);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+pre.has-highlighted code .line.highlighted.error {
+  background-color: rgba(239, 68, 68, 0.15);
+  box-shadow: inset 3px 0 0 0 rgba(239, 68, 68, 0.8);
+  position: relative;
+}
+
+pre.has-highlighted code .line.highlighted.error span {
+  text-shadow: 0 0 3px rgba(239, 68, 68, 0.25);
+}
+
+pre.has-highlighted code .line.highlighted.warning {
+  background-color: rgba(234, 179, 8, 0.12);
+  box-shadow: inset 3px 0 0 0 rgba(234, 179, 8, 0.8);
+  position: relative;
+}
+
+pre.has-highlighted code .line.highlighted.warning span {
+  text-shadow: 0 0 2px rgba(234, 179, 8, 0.2);
 }

@@ -46,6 +46,9 @@
     "typescript": "5.9.3"
   },
   "devDependencies": {
+    "@selemondev/shiki-transformer-copy-button": "0.0.2",
+    "@shikijs/colorized-brackets": "3.13.0",
+    "@shikijs/transformers": "3.13.0",
     "@tailwindcss/typography": "0.5.19"
   }
 }
