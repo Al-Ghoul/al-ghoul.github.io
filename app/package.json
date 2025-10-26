@@ -7,7 +7,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "new:post": "node scripts/new-post.mjs",
+    "new:author": "node scripts/new-author.mjs",
+    "new:category": "node scripts/new-category.mjs",
+    "new:tag": "node scripts/new-tag.mjs",
+    "new:series": "node scripts/new-series.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.4",
