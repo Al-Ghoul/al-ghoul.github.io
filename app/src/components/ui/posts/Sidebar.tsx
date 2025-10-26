@@ -23,17 +23,21 @@ export function Sidebar({
             {locale === "ar" ? "الأقسام" : "Categories"}
           </h2>
           <ul className="space-y-1">
-            {categories.map(({ id, count, name }) => (
-              <li key={id} className="flex justify-between">
-                <a
-                  href={`${locale === "en" ? "/en" : ""}/categories/${id}/1`}
-                  className="hover:underline text-neutral-700 dark:text-neutral-200"
-                >
-                  {name}
-                </a>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{count}</span>
-              </li>
-            ))}
+            {categories.length > 0 ?
+              categories.map(({ id, count, name }) => (
+                <li key={id} className="flex justify-between">
+                  <a
+                    href={`${locale === "en" ? "/en" : ""}/categories/${id}/1`}
+                    className="hover:underline text-neutral-700 dark:text-neutral-200"
+                  >
+                    {name}
+                  </a>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{count}</span>
+                </li>
+              ))
+              :
+              locale === "ar" ? <li>لم يتم العثور على أقسام</li> : <li>No categories were found</li>
+            }
           </ul>
         </div>
       </EvervaultCard>
@@ -45,17 +49,21 @@ export function Sidebar({
             {locale === "ar" ? "البطاقات" : "Tags"}
           </h2>
           <ul className="flex flex-wrap gap-2">
-            {tags.map(({ id, count, name }) => (
-              <li key={id}>
-                <a
-                  href={`${locale === "en" ? "/en" : ""}/tags/${id}/1`}
-                  className="px-2 py-1 rounded-md text-sm hover:bg-gray-700/50 dark:hover:bg-gray-200/20 text-neutral-800 dark:text-neutral-200 transition"
-                >
-                  {name}{" "}
-                  <span className="text-gray-500 dark:text-gray-400">({count})</span>
-                </a>
-              </li>
-            ))}
+            {tags.length > 0 ?
+              tags.map(({ id, count, name }) => (
+                <li key={id}>
+                  <a
+                    href={`${locale === "en" ? "/en" : ""}/tags/${id}/1`}
+                    className="px-2 py-1 rounded-md text-sm hover:bg-gray-700/50 dark:hover:bg-gray-200/20 text-neutral-800 dark:text-neutral-200 transition"
+                  >
+                    {name}{" "}
+                    <span className="text-gray-500 dark:text-gray-400">({count})</span>
+                  </a>
+                </li>
+              ))
+              :
+              locale === "ar" ? <li>لم يتم العثور على بطاقات</li> : <li>No tags were found</li>
+            }
           </ul>
         </div>
       </EvervaultCard>
