@@ -55,7 +55,7 @@ export default function MobileAppShowcase({ locale = "ar" }: Props) {
           });
         });
       },
-      { threshold: 0.9 }
+      { threshold: 0.7 }
     );
 
     observer.observe(el);
