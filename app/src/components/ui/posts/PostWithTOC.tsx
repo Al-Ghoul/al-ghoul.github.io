@@ -5,9 +5,10 @@ import RelatedPostsSidebar from "./RelatedPostsSidebar";
 
 interface Props {
   post: CollectionEntry<"posts"> & { frontmatter: Record<string, any> };
-  headings: MarkdownHeading[],
-  locale?: string,
-  children?: React.ReactNode
+  headings: MarkdownHeading[];
+  locale?: "en" | "ar";
+  children?: React.ReactNode;
+  author: CollectionEntry<"authors">;
   prevPost: CollectionEntry<"posts"> | null;
   nextPost: CollectionEntry<"posts"> | null;
 }
@@ -17,6 +18,7 @@ export default function PostWithTOC({
   headings,
   locale = "ar",
   children,
+  author,
   prevPost,
   nextPost,
 }: Props) {
@@ -31,7 +33,7 @@ export default function PostWithTOC({
         <RelatedPostsSidebar locale={locale} className="mt-4" posts={post.frontmatter.relatedPosts} />
       </aside>
 
-      <PostContent post={post} locale={locale} prevPost={prevPost} nextPost={nextPost}>
+      <PostContent post={post} author={author} locale={locale} prevPost={prevPost} nextPost={nextPost}>
         {children}
       </PostContent>
     </>

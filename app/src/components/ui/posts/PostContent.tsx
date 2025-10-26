@@ -5,12 +5,14 @@ import {
 import { format } from 'date-fns'
 import type { CollectionEntry } from "astro:content";
 import { ar } from "date-fns/locale";
+import AuthorCard from "./AuthorCard";
 
 interface PostContentProps {
   post: CollectionEntry<"posts">;
   className?: string;
-  locale: string;
+  locale?: "en" | "ar";
   children?: React.ReactNode;
+  author: CollectionEntry<"authors">;
   prevPost: CollectionEntry<"posts"> | null;
   nextPost: CollectionEntry<"posts"> | null;
 }
@@ -20,6 +22,7 @@ export default function PostContent({
   className,
   locale = "ar",
   children,
+  author,
   prevPost,
   nextPost
 }: PostContentProps) {
@@ -47,7 +50,7 @@ export default function PostContent({
         ease: [0.22, 1, 0.36, 1],
       }}
     >
-      <div className="mb-8 text-center">
+      <div className="text-center">
         <time dateTime={post.data.publishedAt.toDateString()} className="block text-xs text-muted-foreground" dir={TEXT_DIRECTION}>
           {locale == "ar" ?
             format(post.data.publishedAt, "d, LLLL yyyy", { locale: ar })
@@ -86,10 +89,12 @@ export default function PostContent({
         </div>
       </div>
 
+      <AuthorCard author={author} locale={locale} />
 
       <div dir={post.data.lang === "ar" ? "rtl" : "ltr"} lang={post.data.lang}>
         {children}
       </div>
+
 
       <div className="mt-12">
         {prevPost && <a className="float-left" href={prevPost.id}>← {prevPost.data.title}</a>}

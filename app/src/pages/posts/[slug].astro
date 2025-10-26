@@ -27,6 +27,10 @@ const category = await getEntry("categories", post.data.category.id);
 const tags = await Promise.all(
   post.data.tags.map((tag) => getEntry("tags", tag.id))
 );
+
+if (!author) {
+  throw new Error(`Failed to find author for post ${post.id}`);
+}
 ---
 <BaseArabicLayout subTitle={post.data.title}>
   <meta property="og:title" content=`${post.data.title} | مدونة عبد الرحمن الغول` />
@@ -56,7 +60,7 @@ const tags = await Promise.all(
 
   <meta property="article:published_time" content={post.data.publishedAt.toISOString()} />
   {post.data.updatedAt ? <meta property="article:modified_time" content={post.data.updatedAt.toISOString()} /> : null}
-  <meta property="article:author" content={author?.data.name ?? "الغول"} />
+  <meta property="article:author" content={author?.data.name.ar ?? "الغول"} />
   <meta property="article:section" content={category?.data.name ?? "مقالات"} />
   {tags.length > 0 ? tags.map((tag) => <meta property="article:tag" content={tag?.data.name ?? "الغول"} />) : null}
 
@@ -80,6 +84,7 @@ const tags = await Promise.all(
           headings={headings}
           prevPost={prevPost}
           nextPost={nextPost}
+          author={author}
           client:only
         >
           <Content />

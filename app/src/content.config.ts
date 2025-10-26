@@ -25,8 +25,28 @@ const posts = defineCollection({
 const authors = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/data/authors" }),
   schema: z.object({
-    name: z.string(),
-  })
+    name: z.object({
+      en: z.string(),
+      ar: z.string(),
+    }),
+    bio: z.object({
+      en: z.string().optional(),
+      ar: z.string().optional(),
+    }),
+    avatar: z.string().optional(),
+    website: z.string().url().optional(),
+    socials: z
+      .object({
+        twitter: z.string().url().optional(),
+        github: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        youtube: z.string().url().optional(),
+        facebook: z.string().url().optional(),
+        instagram: z.string().url().optional(),
+      })
+      .partial()
+      .optional(),
+  }),
 });
 
 const tags = defineCollection({
