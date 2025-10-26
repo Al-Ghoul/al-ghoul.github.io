@@ -1,0 +1,145 @@
+---
+import BaseEnglishLayout from "@layouts/BaseEnglishLayout.astro";
+import SpaceBoyScene from "@components/ui/core/scenes/SpaceBoyScene";
+import Timeline from "@components/ui/timeline";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import { cn } from "@lib/utils";
+import type { Page } from "astro";
+import type { GetStaticPaths } from "astro";
+
+export async function getStaticPaths({ paginate }: Parameters<GetStaticPaths>[0]) {
+  const posts = await getCollection("posts");
+  const postsPerPage = 10;
+
+  // Collect all available series slugs (case-insensitive)
+  const allSeries = [
+    ...new Set(
+      posts
+        .map((p) => p.data.series?.id?.toLowerCase())
+        .filter(Boolean)
+    ),
+  ];
+
+  return allSeries.flatMap((slug) => {
+    const seriesPosts = posts
+      .filter((p) => p.data.series?.id?.toLowerCase() === slug)
+      .filter((p) => !p.data.draft)
+      .filter((p) => p.data.lang === "en")
+      .sort((a, b) => (a.data.seriesIndex ?? 0) - (b.data.seriesIndex ?? 0));
+
+    return paginate(seriesPosts, {
+      params: { slug },
+      pageSize: postsPerPage,
+    });
+  });
+}
+
+const { slug } = Astro.params;
+const series = await getEntry("series", slug!);
+const page: Page<CollectionEntry<"posts">> = Astro.props.page;
+const currentPagePosts = page.data;
+const totalPages = page.lastPage;
+const pageNumber = page.currentPage;
+---
+
+<BaseEnglishLayout subTitle={`Series “${series?.data.name}”`}>
+  <meta property="og:title" content={`Series “${series?.data.name}” | Abdulrahman AlGhoul's Blog`} />
+  <meta name="twitter:title" content={`Series “${series?.data.name}” | Abdulrahman AlGhoul's Blog`} />
+  <meta name="application-name" content="Abdulrahman AlGhoul's Blog" />
+
+  <meta name="author" content="Abdulrahman AlGhoul" />
+  <meta name="publisher" content="Abdulrahman AlGhoul" />
+  <meta name="creator" content="Abdulrahman AlGhoul" />
+
+  <meta property="og:site_name" content="Abdulrahman AlGhoul's Blog" />
+
+  <meta name="description" content={`Posts in the series “${series?.data.name}” - Page ${page.currentPage}`} />
+  <meta property="og:description" content={`Posts in the series “${series?.data.name}” - Page ${page.currentPage}`} />
+  <meta name="twitter:description" content={`Posts in the series “${series?.data.name}” - Page ${page.currentPage}`} />
+
+  <link rel="canonical" href={`https://al-ghoul.github.io/en/series/${slug}/${pageNumber}`} />
+  <meta property="og:url" content={`https://al-ghoul.github.io/en/series/${slug}/${pageNumber}`} />
+
+  <link rel="alternate" hreflang="en" href={`https://al-ghoul.github.io/en/series/${slug}/${pageNumber}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://al-ghoul.github.io/en/series/${slug}/${pageNumber}`} />
+
+  {pageNumber > 1 && (
+    <link rel="prev" href={`https://al-ghoul.github.io/en/series/${slug}/${pageNumber - 1}`} />
+  )}
+  {pageNumber < totalPages && (
+    <link rel="next" href={`https://al-ghoul.github.io/en/series/${slug}/${pageNumber + 1}`} />
+  )}
+
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="ar_AR" />
+
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <meta property="og:image" content="https://al-ghoul.github.io/en-og-image.png" />
+  <meta property="og:image:width" content="1851" />
+  <meta property="og:image:height" content="380" />
+  <meta property="og:image:type" content="image/png" />
+
+  <meta name="twitter:image" content="https://al-ghoul.github.io/en-og-image.png" />
+  <meta property="og:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
+  <meta name="twitter:image:alt" content="A preview image of Abdulrahman AlGhoul's blog" />
+
+  <div class="fixed inset-0 -z-10">
+    <SpaceBoyScene client:only />
+  </div>
+
+  <main class="min-h-screen" slot="body">
+    <section class="container mx-auto px-4 py-20">
+      <h1 class="text-2xl md:text-4xl font-bold mb-8 capitalize">
+        Series “{series?.data.name}”
+      </h1>
+
+      <Timeline locale="en" data={currentPagePosts} description={series?.data.description} client:only />
+
+      <nav
+        class="flex justify-center items-center gap-2 mt-12"
+        aria-label="Pagination"
+      >
+        {pageNumber > 1 && (
+          <a
+            href={`/en/series/${slug}/${pageNumber - 1}`}
+            class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
+          >
+            Prev
+          </a>
+        )}
+
+        <div class="flex gap-2">
+          {Array.from({ length: totalPages }, (_, i) => {
+            const pageNumber = i + 1;
+            const isActive = pageNumber === page.currentPage;
+            return (
+              <a
+                href={isActive ? undefined : `/en/series/${slug}/${pageNumber}`}
+                class={cn(
+                  "px-3 py-1 rounded-md border",
+                  isActive
+                    ? "bg-yellow-800 text-white dark:text-black cursor-not-allowed"
+                    : "bg-white dark:bg-black hover:bg-muted"
+                )}
+              >
+                {pageNumber}
+              </a>
+            );
+          })}
+        </div>
+
+        {pageNumber < totalPages && (
+          <a
+            href={`/en/series/${slug}/${pageNumber + 1}`}
+            class="px-3 py-1 rounded-md border bg-white dark:bg-black hover:bg-muted"
+          >
+            Next
+          </a>
+        )}
+      </nav>
+    </section>
+  </main>
+</BaseEnglishLayout>
+

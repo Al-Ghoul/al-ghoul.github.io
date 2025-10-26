@@ -8,7 +8,15 @@ import {
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-export default function Timeline({ data, locale = "ar" }: { data: CollectionEntry<"posts">[], locale?: string }) {
+export default function Timeline({
+  data,
+  description,
+  locale = "ar",
+}: {
+  data: CollectionEntry<"posts">[];
+  description?: string;
+  locale?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -48,7 +56,7 @@ export default function Timeline({ data, locale = "ar" }: { data: CollectionEntr
           {locale == "ar" ? "جدول زمني" : "Timeline"}
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
-          {locale == "ar" ? "هنا يمكن جدول زمني لرحلتي." : "Here's a timeline of my journey."}
+          {description ? description : locale == "ar" ? "هنا يمكن جدول زمني لرحلتي." : "Here's a timeline of my journey."}
         </p>
       </div>
 

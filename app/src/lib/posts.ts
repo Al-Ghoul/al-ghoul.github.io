@@ -6,6 +6,7 @@ export async function getTagCounts(locale = "ar") {
   const posts = await getCollection("posts")
     .then(p => p.filter(p => !p.data.draft))
     .then(p => p.filter(p => p.data.lang === locale));
+  const tagsCollection = await getCollection("tags");
   const map = new Map<string, number>();
 
   for (const post of posts) {
@@ -16,16 +17,21 @@ export async function getTagCounts(locale = "ar") {
     }
   }
 
-  return Array.from(map.entries()).map(([id, count]) => ({
-    id,
-    count,
-  }));
+  return Array.from(map.entries()).map(([id, count]) => {
+    const tagData = tagsCollection.find(t => t.id.toLowerCase() === id);
+    return {
+      id,
+      count,
+      name: tagData?.data.name
+    };
+  });
 }
 
 export async function getCategoryCounts(locale = "ar") {
   const posts = await getCollection("posts")
     .then(p => p.filter(p => !p.data.draft))
     .then(p => p.filter(p => p.data.lang === locale));
+  const categoriesCollection = await getCollection("categories");
   const map = new Map<string, number>();
 
   for (const post of posts) {
@@ -35,14 +41,43 @@ export async function getCategoryCounts(locale = "ar") {
     map.set(key, (map.get(key) ?? 0) + 1);
   }
 
-  return Array.from(map.entries()).map(([id, count]) => ({
-    id,
-    count,
-  }));
+  return Array.from(map.entries()).map(([id, count]) => {
+    const categoryData = categoriesCollection.find(c => c.id.toLowerCase() === id);
+    return {
+      id,
+      count,
+      name: categoryData?.data.name
+    };
+  });
+}
+
+export async function getSeriesCounts(locale = "ar") {
+  const posts = await getCollection("posts")
+    .then(p => p.filter(p => !p.data.draft))
+    .then(p => p.filter(p => p.data.lang === locale));
+  const seriesCollection = await getCollection("series");
+  const map = new Map<string, number>();
+
+  for (const post of posts) {
+    const series = post.data.series;
+    if (!series?.id) continue;
+    const key = series.id.toLowerCase();
+    map.set(key, (map.get(key) ?? 0) + 1);
+  }
+  
+  return Array.from(map.entries()).map(([id, count]) => {
+    const seriesData = seriesCollection.find(s => s.id.toLowerCase() === id);
+    return {
+      id,
+      count,
+      name: seriesData?.data.name
+    };
+  });
 }
 
 export type Tags = Awaited<ReturnType<typeof getTagCounts>>;
 export type Categories = Awaited<ReturnType<typeof getCategoryCounts>>;
+export type Series = Awaited<ReturnType<typeof getSeriesCounts>>;
 
 export async function generateExcerptFromMarkdown(markdown: string, maxLength = 160) {
   const text = String((await remark().use(strip).process(markdown))).replace(/\s+/g, " ").trim();

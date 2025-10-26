@@ -1,6 +1,8 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+const LANGUAGES = ["en", "ar"] as const;
+
 const posts = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/data/posts" }),
   schema: z.object({
@@ -10,10 +12,10 @@ const posts = defineCollection({
     updatedAt: z.date().optional(),
     description: z.string(),
     coverImage: z.string(),
-    lang: z.enum(["en", "ar"]),
+    lang: z.enum(LANGUAGES),
     category: reference("categories"),
     tags: z.array(reference("tags")),
-    series: z.string().optional(),         // series name
+    series: reference("series").optional(),
     seriesIndex: z.number().optional(),    // position in series
     relatedPosts: z.array(reference("posts")),
     draft: z.boolean(),
@@ -32,7 +34,6 @@ const tags = defineCollection({
   schema: z.object({
     name: z.string(),
     description: z.string().optional(),
-    color: z.string().optional(),     // e.g., “#ff9900”
   }),
 });
 
@@ -41,8 +42,16 @@ const categories = defineCollection({
   schema: z.object({
     name: z.string(),
     description: z.string().optional(),
-    icon: z.string().optional(),
   }),
 });
 
-export const collections = { posts, authors, tags, categories };
+const series = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/data/series" }),
+  schema: z.object({
+    name: z.string(),
+    description: z.string().optional(),
+    lang: z.enum(LANGUAGES),
+  }),
+});
+
+export const collections = { posts, authors, tags, categories, series };

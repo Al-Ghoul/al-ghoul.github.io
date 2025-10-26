@@ -2,8 +2,7 @@
 import BaseEnglishLayout from "@layouts/BaseEnglishLayout.astro";
 import SwarmScene from "../../components/ui/core/scenes/SwarmScene";
 import { getCollection } from "astro:content";
-import {PostCard} from "../../components/ui/posts/PostCard";
-import { generateExcerptFromMarkdown, getCategoryCounts, getTagCounts } from "@lib/posts";
+import { generateExcerptFromMarkdown, getCategoryCounts, getTagCounts, getSeriesCounts } from "@lib/posts";
 import { Sidebar } from "@components/ui/posts/Sidebar";
 import { HeroParallax } from "@components/ui/hero-parallax";
 import { PRODUCTS } from "@lib/data";
@@ -27,6 +26,7 @@ const postsWithExcerpts = await Promise.all(
 
 const categories = await getCategoryCounts("en");
 const tags = await getTagCounts("en");
+const series = await getSeriesCounts("en");
 ---
 <BaseEnglishLayout>
   <meta property="og:title" content="Abdulrahman AlGhoul's Blog" />
@@ -80,7 +80,7 @@ const tags = await getTagCounts("en");
         </div>
       </div>
 
-      <Sidebar locale="en" categories={categories} tags={tags} client:only />
+      <Sidebar locale="en" categories={categories} tags={tags} series={series} client:only />
     </section>
 
     <section>
