@@ -23,7 +23,7 @@ export default function PostWithTOC({
   nextPost,
 }: Props) {
   return (
-    <>
+    <div className="flex flex-col xl:flex-row gap-4">
       <aside className="hidden xl:block sticky top-24 shrink-0 w-64 self-start">
         <TableOfContents
           headings={headings}
@@ -36,6 +36,6 @@ export default function PostWithTOC({
       <PostContent post={post} author={author} locale={locale} prevPost={prevPost} nextPost={nextPost}>
         {children}
       </PostContent>
-    </>
+    </div>
   );
 }

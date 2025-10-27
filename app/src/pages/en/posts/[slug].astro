@@ -4,6 +4,8 @@ import { getCollection, getEntry, render } from "astro:content";
 import SpaceBoyScene from "@components/ui/core/scenes/SpaceBoyScene";
 import PostWithTOC from "@components/ui/posts/PostWithTOC";
 import { getPrevNextForPost } from "@lib/posts";
+import Giscus from '@giscus/react';
+import "../../../styles/markdown-extend.styl";
 
 export async function getStaticPaths() {
  const allPosts = (await getCollection("posts"))
@@ -75,19 +77,37 @@ if (!author) {
   </div>
 
   <main class="min-h-screen mb-12" slot="body">
-    <div class="flex lg:gap-8 mt-24 px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-1 gap-4 justify-center min-w-0">
-        <PostWithTOC 
-          locale="en"
-          post={{...post, frontmatter: remarkPluginFrontmatter}}
-          headings={headings}
-          prevPost={prevPost}
-          nextPost={nextPost}
-          author={author}
-          client:only
-        >
-          <Content />
-        </PostWithTOC>
+    <div class="flex flex-col xl:flex-row lg:gap-8 mt-24 px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-1 flex-col xl:flex-row gap-4 xl:justify-center lg:items-center">
+        <div class="flex flex-col gap-4">
+          <PostWithTOC 
+            locale="en"
+            post={{...post, frontmatter: remarkPluginFrontmatter}}
+            headings={headings}
+            prevPost={prevPost}
+            nextPost={nextPost}
+            author={author}
+            client:only
+          >
+            <Content />
+          </PostWithTOC>
+          <Giscus
+            id="comments"
+            repo="Al-Ghoul/al-ghoul.github.io"
+            repoId="R_kgDOQATmWQ"
+            category="General"
+            categoryId="DIC_kwDOQATmWc4CxHq6"
+            mapping="pathname"
+            term="Welcome to @giscus/react component!"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="top"
+            theme="fro"
+            lang="en"
+            loading="lazy"
+            client:only
+          />
+        </div>
       </div>
     </div>
   </main>
