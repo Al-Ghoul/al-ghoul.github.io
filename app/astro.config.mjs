@@ -20,6 +20,9 @@ import remarkGfm from 'remark-gfm';
 import remarkDirective from "remark-directive";
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
+
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.mjs";
 
@@ -42,6 +45,7 @@ export default defineConfig({
   integrations: [
     react(), mdx({
       remarkPlugins: [
+        remarkMath,
         remarkRelatedTitles,
         remarkExcerpt,
         remarkReadingTime,
@@ -52,6 +56,7 @@ export default defineConfig({
         parseDirectiveNode,
       ],
       rehypePlugins: [
+        rehypeKatex,
         rehypeSlug,
         [
           rehypeAutolinkHeadings,
