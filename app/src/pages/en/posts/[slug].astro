@@ -83,7 +83,7 @@ if (!author) {
           <PostWithTOC 
             locale="en"
             post={{...post, frontmatter: remarkPluginFrontmatter}}
-            headings={headings}
+            headings={headings.filter(heading => heading.slug != "footnote-label")}headings={headings}
             prevPost={prevPost}
             nextPost={nextPost}
             author={author}

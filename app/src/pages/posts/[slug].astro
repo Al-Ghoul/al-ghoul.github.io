@@ -83,7 +83,7 @@ if (!author) {
         <div class="flex flex-col gap-4">
           <PostWithTOC 
             post={{...post, frontmatter: remarkPluginFrontmatter}}
-            headings={headings}
+            headings={headings.filter(heading => heading.slug != "footnote-label")}
             prevPost={prevPost}
             nextPost={nextPost}
             author={author}
