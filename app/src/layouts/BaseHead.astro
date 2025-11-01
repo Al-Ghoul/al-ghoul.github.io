@@ -27,4 +27,55 @@ const { locale, title } = Astro.props;
   <meta name="google-site-verification" content="PctrSuhGX5V25m3PvBGETkXtehoL6prlMAsSPWdc8es" />
   <slot />
   <title>{title}</title>
+
+  <script is:inline>
+  (function() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    const decodedHash = decodeURIComponent(hash);
+
+    let scrolled = false;
+
+    function attemptScroll() {
+      if (scrolled) return false;
+
+      const element = document.getElementById(decodedHash);
+      if (element) {
+        scrolled = true;
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            const yOffset = -180;
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: "smooth" });
+          }, 200);
+        });
+        return true;
+      }
+      return false;
+    }
+
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    const observer = new MutationObserver(attemptScroll);
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+
+    const checks = [100, 300, 500, 800, 1200, 2000];
+    checks.forEach(delay => {
+      setTimeout(() => {
+        if (attemptScroll()) {
+          observer.disconnect();
+        }
+      }, delay);
+    });
+
+    setTimeout(() => observer.disconnect(), 10000);
+  })();
+  </script>
 </head>

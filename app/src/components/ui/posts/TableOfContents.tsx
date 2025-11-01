@@ -112,5 +112,8 @@ const handleClick = (slug: string) => (e: React.MouseEvent) => {
     const yOffset = -90;
     const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: "smooth" });
+
+    const newUrl = `${window.location.pathname}#${slug}`;
+    window.history.pushState(null, "", newUrl);
   }
 };
